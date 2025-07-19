@@ -5,7 +5,7 @@ permalink: /mentorship/
 author_profile: true
 ---
 
-# Mentorship
+## Mentorship
 
 ### CatholicTech Undergraduate Students
 * Mary Holler (Summer 2025) - *Capstone Project*
@@ -13,14 +13,14 @@ author_profile: true
 
 ### MIT Undergraduate Research Opportunity Program (UROP)
 * Joel Manu (IAP 2024, Spring 2024, Summer 2024)
-* Temujin Orkhon (Spring 2023, Fall 2023, Fall 2024) - *1st place MIT ChemE UROP poster session (April 2024)*
-* Rui-Xi (Ray) Wang (Spring 2023, Fall 2023, Fall 2024)
+* Temujin Orkhon (Spring 2023, Fall 2023, Spring 2024) - *1st place MIT ChemE UROP poster session (April 2024)*
+* Rui-Xi (Ray) Wang (Spring 2023, Fall 2023, Spring 2024)
 * Alor Sahoo (Fall 2022)
 * Cale Gregory (Spring 2022)
 * Elenna Kim (Spring 2022)
 
 
-# Outreach
+## Outreach
 
 MIT Chemical Engineering Application Mentorship Program (ChAMP) (Fall 2020, 2021)
 
