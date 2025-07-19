@@ -5,8 +5,6 @@ permalink: /posters/
 author_profile: true
 ---
 
-### Posters
-
 David E. Graff, **Kevin P. Greenman**, Hao-Wei Pang, Nathan Morgan, Jackson Burns, Angiras Menon, Shih-Cheng Li, Haoyang Wu, Jonathan Zheng, Anna Doner, Xiaorui Dong, Joel Manu, Kevin Spiekermann, William H. Green.
 “Chemprop v2.0.0: Stable Release and Future Plans.”
 *Machine Learning for Pharmaceutical Discovery and Synthesis Consortium Meeting*, Cambridge, MA, USA (April 2024).
