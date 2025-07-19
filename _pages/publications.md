@@ -13,7 +13,7 @@ author_profile: true
 
 ## Peer-Reviewed Journal Papers
 
-[DOI](https://doi.org/10.1039/D4SC08675A){: .btn .btn--danger}
+[DOI](https://doi.org/10.1039/D4SC08675A){: .btn .btn--danger} [Preprint](https://arxiv.org/abs/2410.08833){: .btn .btn--primary} [Code](https://www.github.com/learningmatter-mit/symmetry-mcts){: .btn .btn--info}
 Akshay Subramanian, James Damewood, Juno Nam, **Kevin P. Greenman**, Avni P. Singhal, Rafael Gómez-Bombarelli.
 Symmetry-constrained generation of diverse low-bandgap molecules with Monte Carlo tree search.
 *Chemical Science* **2025**, *16*, 10503–10511.
@@ -74,7 +74,7 @@ Benchmarking Uncertainty Quantification for Protein Engineering.
 
 ## Preprint / Submitted / Under Review
 
-[Preprint](https://doi.org/10.48550/arXiv.2502.05970){: .btn .btn--primary}
+[Preprint](https://doi.org/10.48550/arXiv.2502.05970){: .btn .btn--primary} [Code](https://github.com/learningmatter-mit/matex){: .btn .btn--info}
 Nofit Segal, Aviv Netanyahu, **Kevin P. Greenman**, Pulkit Agrawal, Rafael Gómez-Bombarelli.
 Known Unknowns: Out-of-Distribution Property Prediction in Materials and Molecules.
 *arXiv* **2025**, 2502.05970.
