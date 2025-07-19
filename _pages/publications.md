@@ -28,7 +28,7 @@ Esther Heid, **Kevin P. Greenman**, Yunsie Chung, Shih-Cheng Li, David E. Graff,
 Chemprop: A Machine Learning Package for Chemical Property Prediction.
 *Journal of Chemical Information and Modeling* **2024**, *64*(1), 9–17.
 
-[DOI](https://doi.org/10.1126/science.adi1407){: .btn .btn--danger} [Preprint](https://chemrxiv.org/engage/chemrxiv/article-details/6435f8c5a41dec1a56e64577){: .btn .btn--primary}
+[DOI](https://doi.org/10.1126/science.adi1407){: .btn .btn--danger} [Preprint](https://chemrxiv.org/engage/chemrxiv/article-details/6435f8c5a41dec1a56e64577){: .btn .btn--primary} [Code](https://github.com/RBCanty/MIT_AMD_Platform){: .btn .btn--info}
 Brent A. Koscher\*, Richard B. Canty\*, Matthew A. McDonald\*, **Kevin P. Greenman**, Charles J. McGill, Camille L. Bilodeau, Wengong Jin, Haoyang Wu, Florence H. Vermeire, Brooke Jin, Travis Hart, Timothy Kulesza, Shih-Cheng Li, Tommi S. Jaakola, Regina Barzilay, Rafael Gómez-Bombarelli, William H. Green, Klavs F. Jensen.
 Autonomous, multiproperty-driven molecular discovery: from predictions to measurements and back.
 *Science* **2023**, *382*(6677), eadi1407.
