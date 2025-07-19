@@ -9,7 +9,7 @@ author_profile: true
   You can also find my articles on <a href="{{ site.author.googlescholar }}">my Google Scholar profile</a>.
 {% endif %}
 
-(\*) denotes equal contribution
+(\*) denotes equal contribution; (<sup>†</sup>) denotes corresponding author
 
 ## Peer-Reviewed Journal Papers
 
@@ -62,7 +62,7 @@ Lattice-constant and band-gap tuning in wurtzite and zincblende BInGaN alloys.
 
 Nofit Segal, Aviv Netanyahu, **Kevin P. Greenman**, Pulkit Agrawal, Rafael Gómez-Bombarelli.
 Known Unknowns: Out-of-Distribution Property Prediction in Materials and Molecules.
-*NeurIPS AI4Mat Workshop* **2024**. **Spotlight**
+*NeurIPS AI4Mat Workshop* **2024**. **Spotlight**.
 
 Akshay Subramanian, James Damewood, Juno Nam, **Kevin P. Greenman**, Avni P. Singhal, Rafael Gómez-Bombarelli.
 Symmetry-Constrained Generation of Diverse Low-Bandgap Molecules with Monte Carlo Tree Search.
@@ -74,14 +74,14 @@ Benchmarking Uncertainty Quantification for Protein Engineering.
 
 ## Preprint / Submitted / Under Review
 
-[DOI](https://doi.org/10.48550/arXiv.2502.05970){: .btn .btn--danger}
+[Preprint](https://doi.org/10.48550/arXiv.2502.05970){: .btn .btn--secondary}
 Nofit Segal, Aviv Netanyahu, **Kevin P. Greenman**, Pulkit Agrawal, Rafael Gómez-Bombarelli.
 Known Unknowns: Out-of-Distribution Property Prediction in Materials and Molecules.
 *arXiv* **2025**, 2502.05970.
 
 ## In Preparation
 
-David E. Graff, Nathan K. Morgan, Jackson W. Burns, Anna C. Doner, Brian Li, Shih-Cheng Li, Joel Manu, Angiras Menon, Hao-Wei Pang, Haoyang Wu, Akshat Shirish Zalte, Jonathan W. Zheng, Connor W. Coley, William H. Green†, **Kevin P. Greenman**†.
+David E. Graff, Nathan K. Morgan, Jackson W. Burns, Anna C. Doner, Brian Li, Shih-Cheng Li, Joel Manu, Angiras Menon, Hao-Wei Pang, Haoyang Wu, Akshat Shirish Zalte, Jonathan W. Zheng, Connor W. Coley, William H. Green<sup>†</sup>, **Kevin P. Greenman**<sup>†</sup>.
 Chemprop v2. *(In preparation).*
 
 Yizhe Chen, Shomik Verma, **Kevin P. Greenman**, Haoyu Yin, Zhihao Wang, Lanjing Wang, Jiali Li, Rafael Gomez-Bombarelli, Aron Walsh, Xiaonan Wang.
