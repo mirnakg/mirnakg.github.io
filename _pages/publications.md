@@ -82,7 +82,7 @@ Known Unknowns: Out-of-Distribution Property Prediction in Materials and Molecul
 ## In Preparation
 
 David E. Graff, Nathan K. Morgan, Jackson W. Burns, Anna C. Doner, Brian Li, Shih-Cheng Li, Joel Manu, Angiras Menon, Hao-Wei Pang, Haoyang Wu, Akshat Shirish Zalte, Jonathan W. Zheng, Connor W. Coley, William H. Green<sup>†</sup>, **Kevin P. Greenman**<sup>†</sup>.
-Chemprop v2. *(In preparation).*
+Chemprop v2: An Efficient, Modular Machine Learning Package for Chemistry. *(In preparation).*
 
 Yizhe Chen, Shomik Verma, **Kevin P. Greenman**, Haoyu Yin, Zhihao Wang, Lanjing Wang, Jiali Li, Rafael Gomez-Bombarelli, Aron Walsh, Xiaonan Wang.
 A unified active learning framework for photosensitizer design. *(In preparation).*
