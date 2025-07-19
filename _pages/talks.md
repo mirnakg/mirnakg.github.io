@@ -72,6 +72,7 @@ author_profile: true
 **Kevin P. Greenman**, Haoyang Wu, William H. Green.
 “Chemprop: Datasets and Machine Learning Software for Chemical Property Prediction”.
 Division of Catalysis Science and Technology (CATL) – Open Source Software Workshops, *ACS Fall Meeting*, San Francisco, CA, USA (August 2023).
+[Code](https://github.com/chemprop/chemprop-workshop-acs-fall2023){: .btn .btn--info}
 
 Charles McGill, Michael Forsuelo, **Kevin P. Greenman**.
 “An Introduction to Chemprop”.
