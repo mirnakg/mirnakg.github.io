@@ -8,6 +8,18 @@ author_profile: true
 ## Invited Talks
 
 **Kevin P. Greenman**.
+"Artificial Intelligence and Physics-Based Simulations for (Bio)Molecular and Materials Design".
+*Physics Department, University of Rome Tor Vergata* (Rome, Italy) (November 2025).
+
+**Kevin P. Greenman**.
+"Optical Property Prediction and Molecular Discovery through Multi-Fidelity Deep Learning and Computational Chemistry".
+*MIT Signals Information and Algorithms (Prof. Gregory Wornell) Group Meeting* (Virtual) (September 2025).
+
+**Kevin P. Greenman**.
+"AI-driven chemistry research and undergraduate skill development with Chemprop".
+*ACS Fall Meeting*, Washington, D.C., USA (August 2025).
+
+**Kevin P. Greenman**.
 "Chemprop and Related Projects".
 *Axiom Bio Journal Club* (Virtual) (May 2025).
 
