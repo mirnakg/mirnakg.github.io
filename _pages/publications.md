@@ -13,6 +13,21 @@ author_profile: true
 
 ## Peer-Reviewed Journal Papers
 
+[Preprint](https://doi.org/10.26434/chemrxiv-2025-4p1nr){: .btn .btn--primary} [Code](https://github.com/chemprop/chemprop_benchmark_v2){: .btn .btn--info}
+David E. Graff, Nathan K. Morgan, Jackson W. Burns, Anna C. Doner, Brian Li, Shih-Cheng Li, Joel Manu, Angiras Menon, Hao-Wei Pang, Haoyang Wu, Akshat Shirish Zalte, Jonathan W. Zheng, Connor W. Coley, William H. Green<sup>†</sup>, **Kevin P. Greenman**<sup>†</sup>.
+Chemprop v2: An Efficient, Modular Machine Learning Package for Chemical Property Prediction.
+Accepted in *Journal of Chemical Information and Modeling* (**December 2025**). <!-- TODO: add JCIM DOI once available -->
+
+[DOI](https://doi.org/10.1038/s41524-025-01808-x){: .btn .btn--danger} [Preprint](https://doi.org/10.48550/arXiv.2502.05970){: .btn .btn--primary} [Code](https://github.com/learningmatter-mit/matex){: .btn .btn--info}
+Nofit Segal, Aviv Netanyahu, **Kevin P. Greenman**, Pulkit Agrawal, Rafael Gómez-Bombarelli.
+Known Unknowns: Out-of-Distribution Property Prediction in Materials and Molecules.
+*npj Computational Materials* **2025**, *11*(1), 345.
+
+[DOI](https://doi.org/10.1039/D5SC05749C){: .btn .btn--danger} [Code](https://github.com/jiali1025/A_General_Active_learning_framework_for_MoleDesign){: .btn .btn--info}
+Yizhe Chen\*, Shomik Verma\*, **Kevin P. Greenman**\*, Haoyu Yin, Zhihao Wang, Lanjing Wang, Jiali Li, Rafael Gómez-Bombarelli, Aron Walsh, Xiaonan Wang.
+A unified active learning framework for photosensitizer design.
+*Chemical Science* **2025**. <!-- TODO: add issue/page/etc once available -->
+
 [DOI](https://doi.org/10.1039/D4SC08675A){: .btn .btn--danger} [Preprint](https://arxiv.org/abs/2410.08833){: .btn .btn--primary} [Code](https://www.github.com/learningmatter-mit/symmetry-mcts){: .btn .btn--info}
 Akshay Subramanian, James Damewood, Juno Nam, **Kevin P. Greenman**, Avni P. Singhal, Rafael Gómez-Bombarelli.
 Symmetry-constrained generation of diverse low-bandgap molecules with Monte Carlo tree search.
@@ -72,20 +87,9 @@ Symmetry-Constrained Generation of Diverse Low-Bandgap Molecules with Monte Carl
 Benchmarking Uncertainty Quantification for Protein Engineering.
 *ICLR Machine Learning for Drug Discovery (MLDD) Workshop* **2022**.
 
-## Preprint / Submitted / Under Review
-
-[Preprint](https://doi.org/10.48550/arXiv.2502.05970){: .btn .btn--primary} [Code](https://github.com/learningmatter-mit/matex){: .btn .btn--info}
-Nofit Segal, Aviv Netanyahu, **Kevin P. Greenman**, Pulkit Agrawal, Rafael Gómez-Bombarelli.
-Known Unknowns: Out-of-Distribution Property Prediction in Materials and Molecules.
-*arXiv* **2025**, 2502.05970.
+<!-- ## Preprint / Submitted / Under Review -->
 
 ## In Preparation
-
-David E. Graff, Nathan K. Morgan, Jackson W. Burns, Anna C. Doner, Brian Li, Shih-Cheng Li, Joel Manu, Angiras Menon, Hao-Wei Pang, Haoyang Wu, Akshat Shirish Zalte, Jonathan W. Zheng, Connor W. Coley, William H. Green<sup>†</sup>, **Kevin P. Greenman**<sup>†</sup>.
-Chemprop v2: An Efficient, Modular Machine Learning Package for Chemistry. *(In preparation).*
-
-Yizhe Chen, Shomik Verma, **Kevin P. Greenman**, Haoyu Yin, Zhihao Wang, Lanjing Wang, Jiali Li, Rafael Gomez-Bombarelli, Aron Walsh, Xiaonan Wang.
-A unified active learning framework for photosensitizer design. *(In preparation).*
 
 **Kevin P. Greenman**, Temujin Orkhon, William H. Green, Rafael Gómez-Bombarelli.
 Multi-Fidelity Deep Learning for Data-Efficient Molecular Property Models from Experimental and Computational Data. *(In preparation).*
