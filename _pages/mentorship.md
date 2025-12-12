@@ -8,8 +8,8 @@ author_profile: true
 ## Mentorship
 
 ### CatholicTech Undergraduate Students
-* Mary Holler (Summer 2025) - *Capstone Project*
-* Lauren Mitchell (Summer 2025) - *Research Thesis Project*
+* Mary Holler (Summer 2025 - Present) - *Capstone Project*
+* Lauren Mitchell (Summer 2025 - Present) - *Research Thesis Project*
 
 ### MIT Undergraduate Research Opportunity Program (UROP)
 * Joel Manu (IAP 2024, Spring 2024, Summer 2024)
