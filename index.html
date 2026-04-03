@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mirna Kheir Gouda</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:     #f0ece3;
+      --fg:     #c8c3b8;
+      --border: #c0bbb0;
+      --dark:   #1a1a1a;
+    }
+    html, body {
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    #wrap {
+      position: fixed;
+      inset: 0;
+      border-top: 1.5px dashed var(--border);
+      border-bottom: 1.5px dashed var(--border);
+      overflow: hidden;
+    }
+    #grid {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--fg);
+    }
+    .row {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .name-ch, .sub-ch {
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .w { font-weight: 700; }
+    .cursor {
+      display: inline-block;
+      vertical-align: middle;
+      animation: blink 0.9s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    nav {
+      position: fixed;
+      top: clamp(0.5rem,1.8vw,1rem);
+      right: clamp(0.8rem,3vw,2rem);
+      z-index: 20;
+      display: flex;
+      gap: clamp(2rem,5vw,4rem);
+      font-size: clamp(13px,2.2vw,22px);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+    nav a { color: var(--dark); font-weight: 700; text-decoration: none; transition: color 0.2s; }
+    nav a:hover { color: #2a52cc; }
+    .site-id {
+      position: fixed;
+      top: clamp(0.5rem,1.8vw,1rem);
+      left: clamp(0.8rem,3vw,2rem);
+      z-index: 20;
+      font-size: clamp(13px,2.2vw,22px);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+  </style>
+</head>
+<body>
+<div id="wrap"><div id="grid"></div></div>
+<a class="site-id" href="index.html">MKG</a>
+<nav>
+  <a href="about.html">About</a>
+  <a href="projects.html">Projects</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<script>
+  const AA        = 'ACDEFGHIKLMNPQRSTVWY';
+  const WORDS     = ['ENGINEER','SCIENTIST','BUILDER','BIOLOGIST','INNOVATOR','RESEARCHER','PROBLEM-SOLVER','BIODESIGNER','CREATOR'];
+  const COLORS    = ['#2a52cc','#c0392b','#8b4fa8','#1a7a4a','#c47a1e','#1a6e8a','#a0522d','#2a7a6a','#8b2252'];
+  const MAX_LOOPS = 3; // stop after cycling through all words 3 times
+
+  // exact text to render — note casing and trailing space
+  const FULL_NAME = 'MIRNA KHEIR GOUDA ';         // trailing space = gap before AA
+  const SUBTITLE  = 'PhD in Bioengineering, MIT '; // trailing space = gap before AA
+
+  const NAME_ROW = 2;
+  const SUB_ROW  = 3;
+
+  const gridEl = document.getElementById('grid');
+
+  let cols=0, rows=0, fsPx=0, lineH=0, charW=0;
+  let padTop=0, padLeft=0;
+  let staticRows=[];
+  let nameColsUsed=0, subColsUsed=0;
+
+  let wi=0, ci=0;
+  let wordRow=-1, wordCol=-1;
+  let loopCount=0, done=false;
+
+  const TYPE_SPEED=200, PAUSE_TIME=500;
+
+  function randAA(){ return AA[Math.floor(Math.random()*AA.length)]; }
+
+  function measureW(fs, fw, ls, text){
+    const el = document.createElement('span');
+    el.style.cssText =
+      `position:absolute;visibility:hidden;white-space:pre;` +
+      `font-family:IBM Plex Mono,monospace;` +
+      `font-size:${fs}px;font-weight:${fw};letter-spacing:${ls}px;`;
+    el.textContent = text;
+    document.body.appendChild(el);
+    const w = el.getBoundingClientRect().width;
+    document.body.removeChild(el);
+    return w;
+  }
+
+  function measure(){
+    const vw=window.innerWidth, vh=window.innerHeight;
+
+    padLeft = Math.min(Math.max(16, vw*0.03), 35);
+    padTop  = Math.min(Math.max(19, vw*0.03), 40);
+    fsPx    = Math.min(Math.max(13, vw*0.022), 22);
+    lineH   = fsPx * 1.75;
+
+    const ls = fsPx * 0.10;
+
+    // True charW from 100 normal-weight chars
+    const totalW = measureW(fsPx, 400, ls, 'A'.repeat(100));
+    charW = totalW / 100;
+
+    const innerW = vw - padLeft*2;
+    const innerH = vh - padTop*2;
+    cols = Math.floor(innerW / charW);
+    rows = Math.ceil(innerH  / lineH) + 2;
+
+    // Cols used by name and subtitle — floor so we never under-fill the row
+    nameColsUsed = Math.floor(measureW(fsPx, 700, ls, FULL_NAME) / charW);
+    subColsUsed  = Math.floor(measureW(fsPx, 700, ls, SUBTITLE)  / charW);
+
+    gridEl.style.cssText =
+      `position:absolute;inset:0;overflow:hidden;` +
+      `font-family:IBM Plex Mono,monospace;color:var(--fg);` +
+      `font-size:${fsPx}px;line-height:${lineH}px;` +
+      `letter-spacing:${ls}px;` +
+      `padding:${padTop}px ${padLeft}px;`;
+  }
+
+  function buildStatic(){
+    staticRows=[];
+    for(let r=0;r<rows;r++){
+      let s='';
+      for(let c=0;c<cols;c++) s+=randAA();
+      staticRows.push(s);
+    }
+  }
+
+
+  function chStyle(){
+    return `font-size:${fsPx}px;line-height:${lineH}px;letter-spacing:${fsPx*0.10}px;`;
+  }
+
+  function buildNameRow(r, text, colsUsed, cls){
+    let html=`<div class="row">`;
+    for(const ch of text){
+      html+=`<span class="${cls}" style="${chStyle()}">${ch===' '?'&nbsp;':ch}</span>`;
+    }
+    // fill right side: always produce exactly (cols - colsUsed) plain AA chars
+    // use a fixed offset into static so chars are stable between renders
+    const fill = Math.max(0, cols - colsUsed);
+    for(let c=0;c<fill;c++){
+      const idx = (colsUsed + c) % staticRows[r].length;
+      html += staticRows[r][idx] || randAA();
+    }
+    html+=`</div>`;
+    return html;
+  }
+
+  function isOccupied(r, col, len){
+    // check name/sub rows
+    if(r===NAME_ROW||r===SUB_ROW) return true;
+    // check against already placed words
+    for(const pw of placedWords){
+      if(pw.row===r){
+        const start=pw.col, end=pw.col+pw.word.length-1;
+        const newEnd=col+len-1;
+        if(col<=end+1 && newEnd>=start-1) return true; // overlap or adjacent
+      }
+    }
+    return false;
+  }
+
+  function pickWordPos(word){
+    const skip=new Set([0,1,NAME_ROW-1,NAME_ROW,SUB_ROW,SUB_ROW+1,rows-1,rows-2]);
+    const valid=[];
+    for(let r=4;r<rows-2;r++) if(!skip.has(r)) valid.push(r);
+    if(!valid.length){wordRow=6;wordCol=1;return;}
+
+    // try up to 50 random positions to find a free spot
+    for(let attempt=0;attempt<50;attempt++){
+      const r=valid[Math.floor(Math.random()*valid.length)];
+      const maxCol=Math.max(0,cols-word.length-2);
+      const c=Math.floor(Math.random()*(maxCol+1));
+      if(!isOccupied(r,c,word.length)){
+        wordRow=r; wordCol=c; return;
+      }
+    }
+    // fallback: just pick anything
+    const r=valid[Math.floor(Math.random()*valid.length)];
+    wordRow=r; wordCol=Math.floor(Math.random()*Math.max(1,cols-word.length));
+  }
+
+  // track all placed words so they persist
+  // store fractional col (0-1) so position survives resize
+  let placedWords = []; // [{rowFrac, colFrac, word, color}]
+
+  function placedCol(pw)  { return Math.floor(pw.colFrac  * cols); }
+  function placedRow(pw)  { return Math.floor(pw.rowFrac  * rows); }
+
+  function isOccupied(r, col, len){
+    if(r===NAME_ROW||r===SUB_ROW) return true;
+    for(const pw of placedWords){
+      if(placedRow(pw)===r){
+        const start=placedCol(pw), end=start+pw.word.length-1;
+        const newEnd=col+len-1;
+        if(col<=end+1 && newEnd>=start-1) return true;
+      }
+    }
+    return false;
+  }
+
+  function pickWordPos(word){
+    const skip=new Set([0,1,NAME_ROW-1,NAME_ROW,SUB_ROW,SUB_ROW+1,rows-1,rows-2]);
+    const valid=[];
+    for(let r=4;r<rows-2;r++) if(!skip.has(r)) valid.push(r);
+    if(!valid.length){wordRow=6;wordCol=1;return;}
+
+    for(let attempt=0;attempt<100;attempt++){
+      const r=valid[Math.floor(Math.random()*valid.length)];
+      const maxCol=Math.max(0,cols-word.length-2);
+      const c=Math.floor(Math.random()*(maxCol+1));
+      if(!isOccupied(r,c,word.length)){
+        wordRow=r; wordCol=c; return;
+      }
+    }
+    // fallback
+    const r=valid[Math.floor(Math.random()*valid.length)];
+    wordRow=r; wordCol=Math.floor(Math.random()*Math.max(1,cols-word.length));
+  }
+
+  function buildRow(r){
+    const word=WORDS[wi], color=COLORS[wi], visible=word.slice(0,ci);
+
+    if(r===0) return `<div class="row">${'\u00A0'.repeat(cols)}</div>`;
+    if(r===NAME_ROW) return buildNameRow(r, FULL_NAME, nameColsUsed, 'name-ch');
+    if(r===SUB_ROW)  return buildNameRow(r, SUBTITLE,  subColsUsed,  'sub-ch');
+
+    // build col->html map from all placed words at their current (rescaled) positions
+    let overrides = {};
+    for(const pw of placedWords){
+      if(placedRow(pw) === r){
+        const sc = placedCol(pw);
+        for(let j=0;j<pw.word.length;j++){
+          if(sc+j < cols) overrides[sc+j] = `<span class="w" style="color:${pw.color}">${pw.word[j]}</span>`;
+        }
+      }
+    }
+
+    const isTypingRow = r === wordRow;
+
+    let html = `<div class="row">`;
+    for(let c=0;c<cols;c++){
+      // placed words take priority — never overwrite them
+      if(overrides[c] && !(isTypingRow && c >= wordCol && c < wordCol + visible.length)){
+        html += overrides[c];
+      } else if(isTypingRow && c >= wordCol && c < wordCol + visible.length){
+        html += `<span class="w" style="color:${color}">${visible[c-wordCol]}</span>`;
+      } else if(isTypingRow && c === wordCol + visible.length && ci < word.length && !done){
+        const cH=fsPx*0.70, cW=charW*0.58;
+        html += `<span class="cursor" style="width:${cW}px;height:${cH}px;background:${color};margin-bottom:${fsPx*0.05}px;"></span>`;
+      } else {
+        html += staticRows[r][c] || randAA();
+      }
+    }
+    html += `</div>`;
+    return html;
+  }
+
+  function render(){
+    let html='';
+    for(let r=0;r<rows;r++) html+=buildRow(r);
+    gridEl.innerHTML=html;
+  }
+
+  function tick(){
+    if(done) return;
+    const word=WORDS[wi];
+    ci++;
+    render();
+    if(ci === word.length){
+      // save with fractional position so it survives resize
+      placedWords.push({
+        rowFrac: wordRow/rows,
+        colFrac: wordCol/cols,
+        word, color:COLORS[wi]
+      });
+      wi++;
+      if(wi >= WORDS.length){
+        wi=0; loopCount++;
+        if(loopCount >= MAX_LOOPS){
+          done=true;
+          wordRow=-1; wordCol=-1; // kill cursor
+          render(); return;
+        }
+      }
+      ci=0;
+      pickWordPos(WORDS[wi]);
+      setTimeout(tick, PAUSE_TIME);
+    } else {
+      setTimeout(tick, TYPE_SPEED);
+    }
+  }
+
+  function init(isResize){
+    measure(); buildStatic();
+    if(!isResize){
+      // full reset only on first load
+      placedWords=[]; ci=0; wi=0; loopCount=0; done=false;
+    }
+    pickWordPos(WORDS[wi]);
+    render();
+  }
+
+  document.fonts.ready.then(()=>{ init(false); setTimeout(tick,900); });
+  window.addEventListener('resize', ()=>init(true));
+</script>
+</body>
+</html>

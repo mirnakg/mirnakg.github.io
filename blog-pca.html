@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Understanding PCA — Mirna Kheir Gouda</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#f0ece3; --fg:#000000; --muted:#000000; --border:#c0bbb0; --accent:#2a52cc; }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(13px,2.2vw,22px);
+      color: var(--fg);
+    }
+
+    /* ── sticky header ── */
+    .site-header {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: clamp(0.8rem,2vw,1.4rem) clamp(1rem,4vw,2.5rem);
+      border-bottom: 1.5px dashed var(--border);
+      background: var(--bg);
+    }
+    .site-id {
+      font-size: clamp(13px,2.2vw,22px);
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: #1a1a1a; font-weight: 700; text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav { display: flex; gap: clamp(2rem,5vw,4rem); }
+    nav a {
+      font-size: clamp(13px,2.2vw,22px);
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: #1a1a1a; font-weight: 700; text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav a:hover, nav a.active { color: var(--accent); }
+
+    /* ── post layout ── */
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem clamp(1.5rem,5vw,3rem) 6rem;
+    }
+
+    .post-meta {
+      font-size: 0.7em;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #000;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem,5vw,2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+
+    .post-subtitle {
+      font-size: 0.85em;
+      color: #000;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    hr {
+      border: none;
+      border-top: 1.5px dashed var(--border);
+      margin: 2rem 0;
+    }
+
+    h2 {
+      font-size: 1.1em;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin: 2.5rem 0 1rem;
+    }
+
+    h3 {
+      font-size: 1em;
+      font-weight: 700;
+      margin: 2rem 0 0.8rem;
+    }
+
+    p {
+      font-size: 0.88em;
+      line-height: 1.95;
+      margin-bottom: 1.2rem;
+    }
+
+    /* math blocks */
+    .math-block {
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+
+    .math-inline { display: inline; }
+
+    /* covariance matrix table */
+    .cov-table {
+      margin: 1.5rem auto;
+      border-collapse: collapse;
+      font-size: 0.82em;
+    }
+    .cov-table th, .cov-table td {
+      border: 1px solid var(--border);
+      padding: 0.4em 0.7em;
+      text-align: center;
+    }
+    .cov-table th { font-weight: 700; background: rgba(0,0,0,0.03); }
+
+    /* callout box */
+    .callout {
+      border-left: 3px solid var(--accent);
+      padding: 0.8rem 1rem;
+      margin: 1.5rem 0;
+      font-size: 0.85em;
+      line-height: 1.8;
+    }
+
+    /* numbered steps */
+    ol {
+      padding-left: 1.4rem;
+      margin-bottom: 1.2rem;
+    }
+    ol li {
+      font-size: 0.88em;
+      line-height: 1.9;
+      margin-bottom: 0.4rem;
+    }
+
+    /* links */
+    a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); transition: opacity 0.2s; }
+    a:hover { opacity: 0.7; }
+    .site-id, nav a { border-bottom: none; }
+
+    /* code / github link */
+    .repo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      margin: 1.5rem 0;
+      font-size: 0.78em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-bottom: 1px solid var(--accent);
+      padding: 0.4em 0.9em;
+      transition: opacity 0.2s;
+    }
+    .repo-link:hover { opacity: 0.7; }
+
+    /* back link */
+    .back {
+      display: inline-block;
+      margin-bottom: 2rem;
+      font-size: 0.72em;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #000;
+      border-bottom: 1px solid var(--border);
+    }
+    .back:hover { color: var(--accent); border-color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-id" href="index.html">MKG</a>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="blog.html" class="active">Blog</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <a class="back" href="blog.html">← Back to Blog</a>
+
+  <span class="post-meta">Machine Learning · 2024</span>
+  <h1>Understanding PCA</h1>
+  <p class="post-subtitle">A math-based explanation of dimensionality reduction using Principal Component Analysis, with a starter code example applied to a cancer dataset.</p>
+
+  <a class="repo-link" href="https://github.com/mirnakg/ML_Blog_Understanding_PCA" target="_blank">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+    View on GitHub + Jupyter Notebook
+  </a>
+
+  <hr/>
+
+  <p>Principal Component Analysis (PCA) transforms and combines features to project data into a lower dimension — for example, onto a 2D plane — such that the <strong>maximum variance</strong> in the data is captured and displayed.</p>
+
+  <h2>The Covariance Matrix</h2>
+
+  <p>To obtain principal components from the data, we first need the <strong>covariance matrix</strong> of the features. If the number of features is <em>p</em>, the covariance matrix is of size <em>p × p</em>:</p>
+
+  <table class="cov-table">
+    <thead>
+      <tr><th></th><th>x₁</th><th>x₂</th><th>...</th><th>xₚ</th></tr>
+    </thead>
+    <tbody>
+      <tr><th>x₁</th><td>Cov(x₁, x₁)</td><td>Cov(x₁, x₂)</td><td>...</td><td>Cov(x₁, xₚ)</td></tr>
+      <tr><th>x₂</th><td>Cov(x₁, x₂)</td><td>Cov(x₂, x₂)</td><td></td><td></td></tr>
+      <tr><th>...</th><td>...</td><td></td><td>...</td><td></td></tr>
+      <tr><th>xₚ</th><td>Cov(x₁, xₚ)</td><td>...</td><td></td><td>Cov(xₚ, xₚ)</td></tr>
+    </tbody>
+  </table>
+
+  <p>where \(\text{Cov}(x_i, x_i) = \text{Var}(x_i)\).</p>
+
+  <h2>Eigenvalues &amp; Eigenvectors</h2>
+
+  <p>From the covariance matrix, we compute eigenvalues and eigenvectors. Two relevant properties of the covariance matrix make this possible:</p>
+
+  <ol>
+    <li><strong>It is symmetric</strong> (\(C = C^T\)) — entries are symmetric with respect to the main diagonal.</li>
+    <li><strong>Its eigenvalues are real non-negative numbers.</strong></li>
+  </ol>
+
+  <p>The covariance matrix \(C\) has eigenvalues \(\lambda_1, \lambda_2, \ldots, \lambda_p\) corresponding to each eigenvector. Eigenvalues capture the <em>amount of information</em> held by that eigenvector (i.e. the principal component), so they describe the <strong>importance</strong> of the corresponding PC. Dividing a given eigenvalue by the sum of all eigenvalues gives the <strong>percentage of variance</strong> captured by that component.</p>
+
+  <p>The eigenvectors \(u_1 \perp u_2 \perp \ldots \perp u_p\) are <strong>orthogonal</strong> to each other — they capture different information. These eigenvectors specify the directions in the data space that capture the highest variance. For a given sample \(k\), the principal component is computed as the dot product:</p>
+
+  <div class="math-block">\[ u \cdot x_k^T \]</div>
+
+  <h2>Intuition: The Dot Product</h2>
+
+  <p>For a given data vector \(x_k\), the dot product is <strong>maximum</strong> when \(x_k\) is parallel to \(u\), and <strong>zero</strong> when \(x_k\) is perpendicular to \(u\). In an abstract sense, the dot product represents <em>information preserved</em>.</p>
+
+  <div class="math-block">\[ \vec{x} \cdot \hat{u} = |x||u|\cos(a) \]</div>
+
+  <div class="callout">
+    The dot product is maximum when two vectors are aligned (cos 0° = 1) and zero when perpendicular (cos 90° = 0). PCA finds the directions that maximise this alignment across all data points.
+  </div>
+
+  <h2>The PCA Objective Function</h2>
+
+  <p>PCA maximizes the sum of all these dot products — hence maximizing information preserved (or equivalently, minimizing information lost). The dot product is squared to neutralize the direction of data:</p>
+
+  <div class="math-block">\[ \max \sum_{k} \left( x_k^T \cdot u \right)^2 \]</div>
+
+  <p>We aim to find \(u\) that satisfies this objective. The following derivation shows why the best solution is equivalent to finding the eigenvalues and eigenvectors of the covariance matrix.</p>
+
+  <hr/>
+
+  <h2>Derivation</h2>
+
+  <p><strong>Constraint:</strong> the eigenvector \(u\) is a unit vector:</p>
+  <div class="math-block">\[ u^T u = 1 \]</div>
+
+  <p><strong>Expanding the objective:</strong></p>
+  <div class="math-block">\[ \max \sum_{k} x_k^T u \; x_k^T u = \max \sum_{k} u^T x_k \; x_k^T u = \max \; u^T \left( \sum_{k} x_k \; x_k^T \right) u = \max \; u^T C \; u \]</div>
+
+  <p><strong>Applying the constraint via a Lagrange multiplier</strong> (since \(u^T u - 1 = 0\)):</p>
+  <div class="math-block">\[ u^T C \; u = u^T C \; u - \lambda(u^T u - 1) \]</div>
+
+  <p>To find the maximum, take the derivative with respect to \(u\) and set it to zero:</p>
+  <div class="math-block">\[ 2Cu - 2\lambda u = 0 \]</div>
+  <div class="math-block">\[ Cu = \lambda u \]</div>
+
+  <p>This is precisely the <strong>eigenvalue equation</strong> for \(C\). The amount of information preserved after projection onto a given eigenvector is given by the corresponding eigenvalue:</p>
+  <div class="math-block">\[ u^T C \; u = \lambda \]</div>
+  <div class="math-block">\[ \max \; u^T C \; u = \max \; \lambda \]</div>
+
+  <p>The solution vector \(u\) has the <strong>largest eigenvalue</strong>. This gives us \(u_1\) — the first principal component.</p>
+
+  <p>Because eigenvectors are orthogonal to each other, \(u_2\) is orthogonal to \(u_1\) and corresponds to the <strong>second largest</strong> \(\lambda\). We solve the same problem again in the subspace orthogonal to \(u_1\) to get the second principal component, and so on.</p>
+
+  <hr/>
+
+  <h2>Further Reading</h2>
+
+  <p>This video provides a good intuitive visual explanation of PCA:</p>
+  <p><a href="https://www.youtube.com/watch?v=FD4DeN81ODY&t=238s" target="_blank">Visual explanation of PCA — YouTube ↗</a></p>
+
+  <h2>Example</h2>
+
+  <p>The Jupyter notebook in the GitHub repository contains an example of PCA applied to a public breast cancer dataset. Download it to run the code and explore the results interactively.</p>
+
+  <a class="repo-link" href="https://github.com/mirnakg/ML_Blog_Understanding_PCA" target="_blank">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+    Download PCA.ipynb from GitHub
+  </a>
+
+</main>
+
+<script>
+  // Render all LaTeX math
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "\\(", right: "\\)", display: false}
+      ],
+      throwOnError: false
+    });
+  });
+</script>
+</body>
+</html>
