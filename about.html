@@ -38,7 +38,7 @@
     /* ── Left column ── */
     .left-col {
       flex-shrink: 0;
-      width: clamp(140px, 22vw, 220px);
+      width: clamp(180px, 26vw, 260px);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -57,12 +57,13 @@
     }
 
     .profile-name {
-      font-size: clamp(1rem,2.2vw,1.5rem);
+      font-size: clamp(1.1rem,2.5vw,1.7rem);
       font-weight: 700;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       line-height: 1.2;
       color: var(--fg);
+      white-space: nowrap;
     }
 
     /* ── Right column ── */
@@ -124,7 +125,6 @@
   <div class="right-col">
     <span class="page-label">About</span>
     <div class="bio">
-      <p>With a natural curiosity for how things work, I spent my childhood taking apart toys to understand their design. That instinct led me to pursue a B.E. in <span class="highlight">Biomedical Engineering</span> at Stony Brook University, where I conducted independent research on evolutionary reversibility and adaptation using engineered yeast.</p>
       <p>I am pursuing a PhD in <span class="highlight">Bioengineering</span>, with a thesis focused on plastic bio-upcycling, specifically engineering bacteria to convert nylon waste into high-value chemicals. Through this work, I've developed a deep appreciation for microbes as tiny factories that can be harnessed to solve big challenges.</p>
       <p>I have also spent significant time building a foundation in <span class="highlight">machine learning</span>, an area I am genuinely fascinated by and believe can significantly enhance scientific discovery.</p>
       <p>For fun, I enjoy cooking, hiking, swimming, and lately, woodworking.</p>
