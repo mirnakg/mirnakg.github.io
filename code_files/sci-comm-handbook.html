@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sci-Comm Handbook — Mirna Kheir Gouda</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#f0ece3; --fg:#000000; --border:#c0bbb0; --accent:#2a52cc; }
+    html, body { min-height:100vh; background:var(--bg); font-family:'IBM Plex Mono',monospace; font-size:clamp(13px,2.2vw,22px); color:var(--fg); }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: clamp(0.8rem,2vw,1.4rem) clamp(1rem,4vw,2.5rem);
+      border-bottom: 1.5px dashed var(--border);
+      background: var(--bg);
+    }
+    .site-id { font-size:clamp(13px,2.2vw,22px); letter-spacing:0.10em; text-transform:uppercase; color:#1a1a1a; font-weight:700; text-decoration:none; transition:color 0.2s; }
+    nav { display:flex; gap:clamp(2rem,5vw,4rem); }
+    nav a { font-size:clamp(13px,2.2vw,22px); letter-spacing:0.10em; text-transform:uppercase; color:#1a1a1a; font-weight:700; text-decoration:none; transition:color 0.2s; }
+    nav a:hover, nav a.active { color:var(--accent); }
+
+    main { max-width:1360px; margin:0 auto; padding:3rem clamp(1.5rem,5vw,3rem) 6rem; }
+
+    .back-link { font-size:0.58rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent); transition:opacity 0.2s; display:inline-block; margin-bottom:2rem; }
+    .back-link:hover { opacity:0.7; }
+
+    .post-meta { font-size:0.58rem; letter-spacing:0.25em; text-transform:uppercase; color:#000; margin-bottom:1.2rem; display:block; }
+
+    h1 { font-size:clamp(1.6rem,5vw,2.8rem); font-weight:700; letter-spacing:-0.02em; line-height:1.1; margin-bottom:1rem; border-bottom:1.5px dashed var(--border); padding-bottom:1.5rem; }
+
+    .description { font-size:clamp(13px,2.2vw,22px); line-height:1.9; margin-bottom:2.5rem; }
+
+    .pdf-container { width:100%; border:1.5px dashed var(--border); }
+    .pdf-container iframe { width:100%; height:85vh; border:none; display:block; }
+
+    .pdf-fallback { padding:2rem; text-align:center; font-size:0.7em; letter-spacing:0.1em; }
+    .pdf-fallback a { color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent); }
+    @media (max-width: 600px) {
+      .site-header { flex-wrap: wrap; }
+      nav { gap: clamp(1rem,3vw,2rem); }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <a class="site-id" href="index.html">MKG</a>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="projects.html" class="active">Projects</a>
+    <a href="publications.html">Publications</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <a class="back-link" href="projects.html">← Projects</a>
+  <span class="post-meta">2025</span>
+  <h1>Sci-Comm<br/>Handbook</h1>
+  <p class="description">A practical, example-based guide to effective science communication.</p>
+
+  <div class="pdf-container">
+    <iframe src="sci-comm-handbook.pdf" title="Sci-Comm Handbook">
+      <div class="pdf-fallback">
+        Your browser cannot display the PDF inline.
+        <a href="sci-comm-handbook.pdf" target="_blank">Download the handbook →</a>
+      </div>
+    </iframe>
+  </div>
+</main>
+</body>
+</html>

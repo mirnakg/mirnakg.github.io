@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog — Mirna Kheir Gouda</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#f0ece3; --fg:#000000; --muted:#000000; --border:#c0bbb0; --accent:#2a52cc; }
+    html, body { min-height:100vh; background:var(--bg); font-size: clamp(13px, 2.2vw, 22px); font-family:'IBM Plex Mono',monospace; color:var(--fg); font-size:clamp(13px,2.2vw,22px); }
+    nav {
+      display: flex;
+      gap: clamp(2rem,5vw,4rem);
+      font-size: clamp(13px,2.2vw,22px);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+    nav a { color: #1a1a1a; font-weight: 700; text-decoration: none; transition: color 0.2s; }
+    nav a:hover { color: #2a52cc; }
+    nav a.active { color: #2a52cc; }
+    .site-id { font-size:clamp(13px,2.2vw,22px); letter-spacing:0.10em; text-transform:uppercase; color:#1a1a1a; font-weight:700; text-decoration:none; transition:color 0.2s; }
+    main { max-width:1360px; margin:0 auto; padding:3rem clamp(1.5rem,5vw,3rem) 5rem; }
+    .page-label { font-size:0.58rem; letter-spacing:0.3em; text-transform:uppercase; color:#000000; margin-bottom:2rem; display:block; }
+    h1 { font-size:clamp(1.5rem,2.8vw,2rem); font-weight:700; letter-spacing:0.05em; line-height:1.3; margin-bottom:2.5rem; border-bottom:1.5px dashed var(--border); padding-bottom:1.5rem; }
+    .post { padding:1.8rem 0; border-bottom:1px solid var(--border); display:block; text-decoration:none; color:inherit; transition:opacity 0.2s; }
+    .post:last-child { border-bottom:none; }
+    .post:hover { opacity:0.7; }
+    .post-meta { font-size:0.55rem; letter-spacing:0.25em; text-transform:uppercase; color:#000000; margin-bottom:0.6rem; }
+    .post h2 { font-size:clamp(13px,2.2vw,22px); font-weight:700; margin-bottom:0.6rem; }
+    .post p { font-size:clamp(13px,2.2vw,22px); line-height:1.9; color:#000000; }
+    .empty-state { font-size:0.85rem; color:#000000; line-height:1.9; padding:2rem 0; }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: clamp(0.8rem,2vw,1.4rem) clamp(1rem,4vw,2.5rem);
+      background: var(--bg);
+      border-bottom: 1.5px dashed var(--border);
+    }
+    @media (max-width: 600px) {
+      .site-header { flex-wrap: wrap; }
+      nav { gap: clamp(1rem,3vw,2rem); }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header"><a class="site-id" href="index.html">MKG</a><nav>
+  <a href="about.html">About</a>
+  <a href="projects.html">Projects</a>
+  <a href="publications.html">Publications</a>
+  <a href="blog.html" class="active">Blog</a>
+  <a href="contact.html">Contact</a>
+</nav></header>
+
+<main>
+  <h1>Blog</h1>
+
+  <a class="post" href="blog-pca.html">
+    <div class="post-meta">2025 · Machine Learning</div>
+    <h2>Understanding PCA</h2>
+    <p>A math-based explanation of dimensionality reduction using Principal Component Analysis — covering the covariance matrix, eigenvalues, eigenvectors, and the full derivation of the PCA objective function.</p>
+  </a>
+
+  <p class="empty-state">More posts coming soon.</p>
+</main>
+</body>
+</html>
