@@ -76,6 +76,22 @@
       text-decoration: none;
       transition: color 0.2s;
     }
+    @media (max-width: 600px) {
+      .site-id {
+        position: fixed;
+        top: clamp(0.5rem,1.8vw,1rem);
+        left: clamp(0.8rem,3vw,2rem);
+      }
+      nav {
+        position: fixed;
+        top: calc(clamp(0.5rem,1.8vw,1rem) + 1.8em);
+        left: clamp(0.8rem,3vw,2rem);
+        right: clamp(0.8rem,3vw,2rem);
+        flex-wrap: wrap;
+        gap: 0.4rem 1.2rem;
+        font-size: clamp(11px,2.5vw,16px);
+      }
+    }
   </style>
 </head>
 <body>
