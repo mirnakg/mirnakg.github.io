@@ -53,7 +53,7 @@
     .feedback.err { color:#c0392b; }
 
     .plot-container { display:flex; justify-content:center; margin:1rem 0; }
-    canvas { border:1px solid var(--border); }
+    canvas { border:1px solid var(--border); width:400px; height:400px; }
 
     .point-table { border-collapse:collapse; font-size:0.78em; margin:0.8rem 0; width:100%; }
     .point-table th, .point-table td { border:1px solid var(--border); padding:0.3em 0.6em; text-align:center; }
@@ -97,7 +97,7 @@
     <tr><td>1</td><td>1</td><td>0</td></tr>
   </table>
 
-  <div class="plot-container"><canvas id="plot0" width="300" height="300"></canvas></div>
+  <div class="plot-container"><canvas id="plot0" width="800" height="800"></canvas></div>
   <p style="text-align:center;font-size:0.75em;color:#666;">Original XOR points in input space. No single line can separate the classes.</p>
 
   <h2>The Network</h2>
@@ -123,7 +123,7 @@
     </table>
     <button class="check-btn" onclick="checkStep1()">Check</button>
     <div class="feedback" id="fb1"></div>
-    <div class="plot-container" id="plot1-wrap" style="display:none"><canvas id="plot1" width="300" height="300"></canvas></div>
+    <div class="plot-container" id="plot1-wrap" style="display:none"><canvas id="plot1" width="800" height="800"></canvas></div>
     <div class="insight" id="insight1" style="display:none">After the linear transform, the points have moved but they are still not linearly separable. A linear model alone cannot solve XOR.</div>
   </div>
 
@@ -141,7 +141,7 @@
     </table>
     <button class="check-btn" onclick="checkStep2()">Check</button>
     <div class="feedback" id="fb2"></div>
-    <div class="plot-container" id="plot2-wrap" style="display:none"><canvas id="plot2" width="300" height="300"></canvas></div>
+    <div class="plot-container" id="plot2-wrap" style="display:none"><canvas id="plot2" width="800" height="800"></canvas></div>
     <div class="insight" id="insight2" style="display:none">After ReLU, the points are now linearly separable! The non-linear activation folded the space so that a single line can separate the two classes. This is why non-linearity matters.</div>
   </div>
 
@@ -190,64 +190,62 @@ function drawPlot(canvasId, pts, lbls, xLabel, yLabel, xRange, yRange, drawSepLi
   const c = document.getElementById(canvasId);
   const ctx = c.getContext('2d');
   const W = c.width, H = c.height;
-  const pad = 40;
+  const s = W / 400; // scale factor (canvas is 800px, displayed at 400px CSS)
+  const pad = 50 * s;
 
   ctx.clearRect(0, 0, W, H);
   ctx.fillStyle = '#fafafa';
   ctx.fillRect(0, 0, W, H);
 
   // Axes
-  ctx.strokeStyle = '#ccc';
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = '#bbb';
+  ctx.lineWidth = 1.5 * s;
   ctx.beginPath();
   ctx.moveTo(pad, H - pad);
-  ctx.lineTo(W - 10, H - pad);
+  ctx.lineTo(W - 15 * s, H - pad);
   ctx.moveTo(pad, H - pad);
-  ctx.lineTo(pad, 10);
+  ctx.lineTo(pad, 15 * s);
   ctx.stroke();
 
   // Labels
   ctx.fillStyle = '#000';
-  ctx.font = '11px Arial';
+  ctx.font = `bold ${14 * s}px Arial`;
   ctx.textAlign = 'center';
-  ctx.fillText(xLabel, W/2, H - 5);
+  ctx.fillText(xLabel, W / 2, H - 8 * s);
   ctx.save();
-  ctx.translate(12, H/2);
-  ctx.rotate(-Math.PI/2);
+  ctx.translate(14 * s, H / 2);
+  ctx.rotate(-Math.PI / 2);
   ctx.fillText(yLabel, 0, 0);
   ctx.restore();
 
-  // Tick marks
-  const plotW = W - pad - 20;
-  const plotH = H - pad - 20;
+  const plotW = W - pad - 25 * s;
+  const plotH = H - pad - 25 * s;
 
   function toX(v) { return pad + (v - xRange[0]) / (xRange[1] - xRange[0]) * plotW; }
   function toY(v) { return (H - pad) - (v - yRange[0]) / (yRange[1] - yRange[0]) * plotH; }
 
-  // Grid lines
-  ctx.strokeStyle = '#eee';
-  ctx.lineWidth = 0.5;
-  for (let v = Math.ceil(xRange[0]); v <= xRange[1]; v += 0.5) {
-    if (v === xRange[0]) continue;
-    ctx.beginPath(); ctx.moveTo(toX(v), H-pad); ctx.lineTo(toX(v), 20); ctx.stroke();
-    ctx.fillStyle='#999'; ctx.font='9px Arial'; ctx.textAlign='center';
-    ctx.fillText(v.toFixed(1), toX(v), H-pad+12);
+  // Grid lines and tick labels
+  ctx.strokeStyle = '#e8e8e8';
+  ctx.lineWidth = 0.8 * s;
+  ctx.font = `${11 * s}px Arial`;
+  for (let v = Math.ceil(xRange[0] * 2) / 2; v <= xRange[1]; v += 0.5) {
+    ctx.beginPath(); ctx.moveTo(toX(v), H - pad); ctx.lineTo(toX(v), 15 * s); ctx.stroke();
+    ctx.fillStyle = '#888'; ctx.textAlign = 'center';
+    ctx.fillText(v.toFixed(1), toX(v), H - pad + 16 * s);
   }
-  for (let v = Math.ceil(yRange[0]); v <= yRange[1]; v += 0.5) {
-    if (v === yRange[0]) continue;
-    ctx.beginPath(); ctx.moveTo(pad, toY(v)); ctx.lineTo(W-10, toY(v)); ctx.stroke();
-    ctx.fillStyle='#999'; ctx.font='9px Arial'; ctx.textAlign='right';
-    ctx.fillText(v.toFixed(1), pad-4, toY(v)+3);
+  for (let v = Math.ceil(yRange[0] * 2) / 2; v <= yRange[1]; v += 0.5) {
+    ctx.beginPath(); ctx.moveTo(pad, toY(v)); ctx.lineTo(W - 15 * s, toY(v)); ctx.stroke();
+    ctx.fillStyle = '#888'; ctx.textAlign = 'right';
+    ctx.fillText(v.toFixed(1), pad - 6 * s, toY(v) + 4 * s);
   }
 
   // Separation line
   if (drawSepLine) {
     ctx.strokeStyle = '#1a6e3a';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([6,4]);
-    // h1 + h2 = 1 => h2 = 1 - h1
-    const lx0 = toX(0), ly0 = toY(1);
-    const lx1 = toX(1), ly1 = toY(0);
+    ctx.lineWidth = 3 * s;
+    ctx.setLineDash([10 * s, 6 * s]);
+    const lx0 = toX(-0.1), ly0 = toY(1.1);
+    const lx1 = toX(1.1), ly1 = toY(-0.1);
     ctx.beginPath(); ctx.moveTo(lx0, ly0); ctx.lineTo(lx1, ly1); ctx.stroke();
     ctx.setLineDash([]);
   }
@@ -256,19 +254,28 @@ function drawPlot(canvasId, pts, lbls, xLabel, yLabel, xRange, yRange, drawSepLi
   for (let i = 0; i < pts.length; i++) {
     const x = toX(pts[i][0]);
     const y = toY(pts[i][1]);
+    const r = 14 * s;
+
+    // Shadow
     ctx.beginPath();
-    ctx.arc(x, y, 8, 0, Math.PI * 2);
+    ctx.arc(x + 2 * s, y + 2 * s, r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0,0,0,0.1)';
+    ctx.fill();
+
+    // Point
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
     ctx.fillStyle = colors[lbls[i]];
     ctx.fill();
     ctx.strokeStyle = '#000';
-    ctx.lineWidth = 1.5;
+    ctx.lineWidth = 2 * s;
     ctx.stroke();
 
     // Label
     ctx.fillStyle = '#fff';
-    ctx.font = 'bold 10px Arial';
+    ctx.font = `bold ${13 * s}px Arial`;
     ctx.textAlign = 'center';
-    ctx.fillText(lbls[i], x, y + 3.5);
+    ctx.fillText(lbls[i], x, y + 4.5 * s);
   }
 }
 
