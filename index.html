@@ -4,20 +4,20 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mirna Kheir Gouda</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg:     #f0ece3;
+      --bg:     #ffffff;
       --fg:     #c8c3b8;
       --border: #c0bbb0;
-      --dark:   #1a1a1a;
+      --dark:   #000000;
     }
     html, body {
       height: 100vh;
       overflow: hidden;
       background: var(--bg);
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: Arial, Helvetica, sans-serif;
     }
     #wrap {
       position: fixed;
@@ -30,7 +30,7 @@
       position: absolute;
       inset: 0;
       overflow: hidden;
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: Arial, Helvetica, sans-serif;
       color: var(--fg);
     }
     .row {
@@ -73,7 +73,7 @@
       text-transform: uppercase;
     }
     nav a { color: var(--dark); font-weight: 700; text-decoration: none; transition: color 0.2s; }
-    nav a:hover { color: #2a52cc; }
+    nav a:hover { color: #1a6e3a; }
     .site-id {
       position: fixed;
       top: clamp(0.5rem,1.8vw,1rem);
@@ -82,7 +82,7 @@
       font-size: clamp(13px,2.2vw,22px);
       letter-spacing: 0.10em;
       text-transform: uppercase;
-      color: #1a1a1a;
+      color: #000000;
       font-weight: 700;
       text-decoration: none;
       transition: color 0.2s;
@@ -118,7 +118,7 @@
 <script>
   const AA        = 'ACDEFGHIKLMNPQRSTVWY';
   const WORDS     = ['ENGINEER','SCIENTIST','BUILDER','BIOLOGIST','INNOVATOR','RESEARCHER','PROBLEM-SOLVER','BIODESIGNER','CREATOR'];
-  const COLORS    = ['#2a52cc','#c0392b','#8b4fa8','#1a7a4a','#c47a1e','#1a6e8a','#a0522d','#2a7a6a','#8b2252'];
+  const COLORS    = ['#1a6e3a','#c0392b','#8b4fa8','#1a7a4a','#c47a1e','#1a6e8a','#a0522d','#2a7a6a','#8b2252'];
   const MAX_LOOPS = 3; // stop after cycling through all words 3 times
 
   // exact text to render — note casing and trailing space
@@ -147,7 +147,7 @@
     const el = document.createElement('span');
     el.style.cssText =
       `position:absolute;visibility:hidden;white-space:pre;` +
-      `font-family:IBM Plex Mono,monospace;` +
+      `font-family:Arial,Helvetica,sans-serif;` +
       `font-size:${fs}px;font-weight:${fw};letter-spacing:${ls}px;`;
     el.textContent = text;
     document.body.appendChild(el);
@@ -181,7 +181,7 @@
 
     gridEl.style.cssText =
       `position:absolute;inset:0;overflow:hidden;` +
-      `font-family:IBM Plex Mono,monospace;color:var(--fg);` +
+      `font-family:Arial,Helvetica,sans-serif;color:var(--fg);` +
       `font-size:${fsPx}px;line-height:${lineH}px;` +
       `letter-spacing:${ls}px;` +
       `padding:${padTop}px ${padLeft}px;`;

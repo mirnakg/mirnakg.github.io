@@ -4,19 +4,19 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Understanding PCA — Mirna Kheir Gouda</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+
   <!-- KaTeX for math rendering -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --bg:#f0ece3; --fg:#000000; --muted:#000000; --border:#c0bbb0; --accent:#2a52cc; }
+    :root { --bg:#ffffff; --fg:#000000; --muted:#000000; --border:#c0bbb0; --accent:#1a6e3a; }
 
     html, body {
       min-height: 100vh;
       background: var(--bg);
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: Arial, Helvetica, sans-serif;
       font-size: clamp(13px,2.2vw,22px);
       color: var(--fg);
     }
@@ -32,14 +32,14 @@
     .site-id {
       font-size: clamp(13px,2.2vw,22px);
       letter-spacing: 0.10em; text-transform: uppercase;
-      color: #1a1a1a; font-weight: 700; text-decoration: none;
+      color: #000000; font-weight: 700; text-decoration: none;
       transition: color 0.2s;
     }
     nav { display: flex; gap: clamp(2rem,5vw,4rem); }
     nav a {
       font-size: clamp(13px,2.2vw,22px);
       letter-spacing: 0.10em; text-transform: uppercase;
-      color: #1a1a1a; font-weight: 700; text-decoration: none;
+      color: #000000; font-weight: 700; text-decoration: none;
       transition: color 0.2s;
     }
     nav a:hover, nav a.active { color: var(--accent); }
