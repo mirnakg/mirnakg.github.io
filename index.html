@@ -30,7 +30,7 @@
       position: absolute;
       inset: 0;
       overflow: hidden;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: 'Courier New', Courier, monospace;
       color: var(--fg);
     }
     .row {
@@ -147,7 +147,7 @@
     const el = document.createElement('span');
     el.style.cssText =
       `position:absolute;visibility:hidden;white-space:pre;` +
-      `font-family:Arial,Helvetica,sans-serif;` +
+      `font-family:'Courier New',Courier,monospace;` +
       `font-size:${fs}px;font-weight:${fw};letter-spacing:${ls}px;`;
     el.textContent = text;
     document.body.appendChild(el);
@@ -181,7 +181,7 @@
 
     gridEl.style.cssText =
       `position:absolute;inset:0;overflow:hidden;` +
-      `font-family:Arial,Helvetica,sans-serif;color:var(--fg);` +
+      `font-family:'Courier New',Courier,monospace;color:var(--fg);` +
       `font-size:${fsPx}px;line-height:${lineH}px;` +
       `letter-spacing:${ls}px;` +
       `padding:${padTop}px ${padLeft}px;`;
