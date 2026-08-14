@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vina Plug &amp; Play — Mirna Kheir Gouda</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#f0ece3; --fg:#000000; --border:#c0bbb0; --accent:#2a52cc; }
+    html, body { min-height:100vh; background:var(--bg); font-family:'IBM Plex Mono',monospace; font-size:clamp(13px,2.2vw,22px); color:var(--fg); }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: clamp(0.8rem,2vw,1.4rem) clamp(1rem,4vw,2.5rem);
+      border-bottom: 1.5px dashed var(--border);
+      background: var(--bg);
+    }
+    .site-id { font-size:clamp(13px,2.2vw,22px); letter-spacing:0.10em; text-transform:uppercase; color:#1a1a1a; font-weight:700; text-decoration:none; transition:color 0.2s; }
+    nav { display:flex; gap:clamp(2rem,5vw,4rem); }
+    nav a { font-size:clamp(13px,2.2vw,22px); letter-spacing:0.10em; text-transform:uppercase; color:#1a1a1a; font-weight:700; text-decoration:none; transition:color 0.2s; }
+    nav a:hover, nav a.active { color:var(--accent); }
+
+    main { max-width:1360px; margin:0 auto; padding:3rem clamp(1.5rem,5vw,3rem) 6rem; }
+
+    .back-link { font-size:0.58rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent); transition:opacity 0.2s; display:inline-block; margin-bottom:2rem; }
+    .back-link:hover { opacity:0.7; }
+
+    .post-meta { font-size:0.58rem; letter-spacing:0.25em; text-transform:uppercase; color:#000; margin-bottom:1.2rem; display:block; }
+
+    h1 { font-size:clamp(1.6rem,5vw,2.8rem); font-weight:700; letter-spacing:-0.02em; line-height:1.1; margin-bottom:1rem; border-bottom:1.5px dashed var(--border); padding-bottom:1.5rem; }
+
+    .description { font-size:clamp(13px,2.2vw,22px); line-height:1.9; margin-bottom:2.5rem; }
+
+    .workflow { margin:2rem 0 3rem; }
+    .workflow h2 { font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase; margin-bottom:1.5rem; }
+
+    .steps { display:flex; flex-direction:column; gap:0; }
+    .step { display:flex; gap:1.2rem; align-items:flex-start; padding:1.2rem 0; border-bottom:1px solid var(--border); }
+    .step:last-child { border-bottom:none; }
+    .step-num { font-size:0.6rem; font-weight:700; letter-spacing:0.2em; color:var(--accent); min-width:2rem; padding-top:0.15em; }
+    .step-content h3 { font-size:clamp(13px,2.2vw,22px); font-weight:700; margin-bottom:0.3rem; }
+    .step-content p { font-size:0.85em; line-height:1.8; color:#333; }
+
+    .tags { display:flex; flex-wrap:wrap; gap:0.4rem; margin:2rem 0; }
+    .tag { font-size:0.55rem; letter-spacing:0.12em; text-transform:uppercase; border:1px solid var(--border); padding:0.25em 0.6em; color:#000; }
+
+    .cta-group { display:flex; flex-wrap:wrap; gap:1rem; margin-top:2.5rem; }
+    .cta {
+      display:inline-flex; align-items:center; gap:0.5rem;
+      font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase; font-weight:700;
+      text-decoration:none; padding:0.8em 1.8em;
+      transition: opacity 0.2s;
+    }
+    .cta:hover { opacity:0.8; }
+    .cta-primary { background:var(--accent); color:#fff; border:1.5px solid var(--accent); }
+    .cta-secondary { background:transparent; color:var(--accent); border:1.5px dashed var(--accent); }
+
+    .features { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin:2.5rem 0; }
+    .feature { border:1.5px dashed var(--border); padding:1.2rem; }
+    .feature h3 { font-size:0.6rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:0.5rem; }
+    .feature p { font-size:0.85em; line-height:1.8; }
+
+    @media (max-width: 600px) {
+      .site-header { flex-wrap: wrap; gap: 0.5rem; }
+      .site-id { width: 100%; }
+      nav { flex-wrap: wrap; gap: 0.8rem 1.5rem; }
+      .features { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <a class="site-id" href="index.html">MKG</a>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="projects.html" class="active">Projects</a>
+    <a href="https://scholar.google.com/citations?user=FP2j7tcAAAAJ&hl=en" target="_blank">Publications</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <a class="back-link" href="projects.html">&larr; Projects</a>
+  <span class="post-meta">2025 &mdash; Computational Biology</span>
+  <h1>Vina Plug<br/>&amp; Play</h1>
+  <p class="description">An interactive molecular docking tool powered by AutoDock Vina. Designed to make protein-ligand docking accessible to researchers without programming experience.</p>
+
+  <div class="tags">
+    <span class="tag">Molecular Docking</span>
+    <span class="tag">AutoDock Vina</span>
+    <span class="tag">Drug Discovery</span>
+    <span class="tag">Python</span>
+    <span class="tag">Streamlit</span>
+  </div>
+
+  <div class="workflow">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <h3>Provide a Ligand</h3>
+          <p>Enter a SMILES string and the tool generates a 3D conformer with RDKit, optimizes geometry with MMFF force field, and converts to PDBQT via Meeko. Or upload a pre-prepared .pdbqt file directly.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <h3>Prepare the Receptor</h3>
+          <p>Enter a PDB ID to fetch the structure from RCSB, or upload your own .pdb file. The tool automatically detects and removes co-crystallized ligands and water molecules, with options to retain metal ions.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <h3>Define the Binding Pocket</h3>
+          <p>Set the search space using a co-crystallized ligand as reference or specify coordinates manually. Configure the pocket radius and docking parameters (exhaustiveness, number of poses).</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <h3>Run Docking &amp; View Results</h3>
+          <p>AutoDock Vina scores and ranks binding poses. View a table of binding energies (total, intermolecular, intramolecular) and download docked poses as PDB files for visualization in PyMOL or ChimeraX.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="feature">
+      <h3>No Code Required</h3>
+      <p>All inputs are provided through a clean web interface. No command line, no scripting.</p>
+    </div>
+    <div class="feature">
+      <h3>Full Pipeline</h3>
+      <p>From SMILES string to docked poses in one workflow &mdash; ligand prep, receptor cleaning, docking, and pose extraction.</p>
+    </div>
+    <div class="feature">
+      <h3>Flexible Input</h3>
+      <p>Accepts SMILES strings, PDB IDs, or direct file uploads. Works with any protein-ligand system.</p>
+    </div>
+    <div class="feature">
+      <h3>Downloadable Results</h3>
+      <p>Export ranked poses as .pdb files ready for visualization in molecular graphics software.</p>
+    </div>
+  </div>
+
+  <div class="cta-group">
+    <a class="cta cta-primary" href="https://vinaplugandplayapp-2core7xp92oqlkyprfkx6x.streamlit.app/" target="_blank" id="app-link">Launch Web App &rarr;</a>
+    <a class="cta cta-secondary" href="https://github.com/mirnakg/Vina_Plug_And_Play" target="_blank">View on GitHub &rarr;</a>
+  </div>
+</main>
+</body>
+</html>
