@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modeling a Two-Stage Cellstat for Phage Production — Mirna Kheir Gouda</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#f0ece3; --fg:#000000; --muted:#000000; --border:#c0bbb0; --accent:#2a52cc; }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(13px,2.2vw,22px);
+      color: var(--fg);
+    }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: clamp(0.8rem,2vw,1.4rem) clamp(1rem,4vw,2.5rem);
+      border-bottom: 1.5px dashed var(--border);
+      background: var(--bg);
+    }
+    .site-id {
+      font-size: clamp(13px,2.2vw,22px);
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: #1a1a1a; font-weight: 700; text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav { display: flex; gap: clamp(2rem,5vw,4rem); }
+    nav a {
+      font-size: clamp(13px,2.2vw,22px);
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: #1a1a1a; font-weight: 700; text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav a:hover, nav a.active { color: var(--accent); }
+
+    main {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 3rem clamp(1.5rem,5vw,3rem) 6rem;
+    }
+
+    .post-meta {
+      font-size: 0.7em;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #000;
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    h1 {
+      font-size: clamp(1.6rem,5vw,2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 0.6rem;
+    }
+
+    .post-subtitle {
+      font-size: 0.85em;
+      color: #000;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    hr {
+      border: none;
+      border-top: 1.5px dashed var(--border);
+      margin: 2rem 0;
+    }
+
+    h2 {
+      font-size: 1.1em;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin: 2.5rem 0 1rem;
+    }
+
+    p {
+      font-size: 0.88em;
+      line-height: 1.95;
+      margin-bottom: 1.2rem;
+    }
+
+    .math-block {
+      margin: 1.5rem 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+
+    .callout {
+      border-left: 3px solid var(--accent);
+      padding: 0.8rem 1rem;
+      margin: 1.5rem 0;
+      font-size: 0.85em;
+      line-height: 1.8;
+    }
+
+    ol {
+      padding-left: 1.4rem;
+      margin-bottom: 1.2rem;
+    }
+    ol li {
+      font-size: 0.88em;
+      line-height: 1.9;
+      margin-bottom: 0.4rem;
+    }
+
+    ul {
+      padding-left: 1.4rem;
+      margin-bottom: 1.2rem;
+    }
+    ul li {
+      font-size: 0.88em;
+      line-height: 1.9;
+      margin-bottom: 0.4rem;
+    }
+
+    .fig-caption {
+      font-size: 0.75em;
+      line-height: 1.7;
+      color: #333;
+      margin: 0.8rem 0 2rem;
+      text-align: center;
+    }
+
+    a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); transition: opacity 0.2s; }
+    a:hover { opacity: 0.7; }
+    .site-id, nav a { border-bottom: none; }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 2rem;
+      font-size: 0.72em;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #000;
+      border-bottom: 1px solid var(--border);
+    }
+    .back:hover { color: var(--accent); border-color: var(--accent); }
+
+    table.params {
+      margin: 1.5rem 0;
+      border-collapse: collapse;
+      font-size: 0.82em;
+      width: 100%;
+    }
+    table.params th, table.params td {
+      border: 1px solid var(--border);
+      padding: 0.4em 0.7em;
+      text-align: left;
+    }
+    table.params th { font-weight: 700; background: rgba(0,0,0,0.03); }
+
+    @media (max-width: 600px) {
+      .site-header { flex-wrap: wrap; gap: 0.5rem; }
+      .site-id { width: 100%; }
+      nav { flex-wrap: wrap; gap: 0.8rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="site-id" href="index.html">MKG</a>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="https://scholar.google.com/citations?user=FP2j7tcAAAAJ&hl=en" target="_blank">Publications</a>
+    <a href="blog.html" class="active">Blog</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <a class="back" href="blog.html">← Back to Blog</a>
+
+  <span class="post-meta">Bioengineering · 2025</span>
+  <h1>Modeling a Two-Stage Cellstat for Phage Production</h1>
+  <p class="post-subtitle">Using delay differential equations to model a continuous phage production process and compare it to batch, with a look at strain engineering strategies to push yields further.</p>
+
+  <hr/>
+
+  <h2>The Case for Continuous Culture</h2>
+
+  <p>As a promising option for improving phage production, we can consider a two-stage cellstat. The setup consists of two vessels: a bacterial growth vessel and a production vessel. The growth vessel serves as a continuous supply of susceptible cells to the production vessel, which contains the phage (Figure 1).</p>
+
+  <p>A two-stage system has several advantages:</p>
+
+  <ol>
+    <li>Bacteria adaptation and resistance to phage infection can be minimized due to short exposure of cells to phage and the constant supply of fresh cells to the reactor.</li>
+    <li>The phage population does not regulate density and availability of susceptible cells, allowing high levels of phage at steady state.</li>
+  </ol>
+
+  <p>The hypothesis here is straightforward: this should lead to higher space-time yields, because it eliminates the relatively lengthy batch bacteria growth stage.</p>
+
+  <p class="fig-caption"><strong>Figure 1:</strong> Schematic illustrating continuous culture cultivation of T4 phages.</p>
+
+  <h2>The Model</h2>
+
+  <p>For this analysis, we used a model proposed by Bull et al. The equations representing the production vessel describe the dynamics of three populations: uninfected (susceptible) bacteria, free phage, and infected bacteria. Key assumptions include:</p>
+
+  <ol>
+    <li>The density of uninfected cells going into the production vessel is achievable at steady-state conditions in the growth vessel.</li>
+    <li>Neither susceptible nor infected cells replicate in the production vessel.</li>
+    <li>Infected cells release all progeny after the assumed lysis time.</li>
+    <li>There are no phage-resistant bacteria present in the entire process.</li>
+    <li>There are no oscillations between phage active and inactive state.</li>
+    <li>All phages are strictly lytic.</li>
+    <li>Phages do not degrade.</li>
+  </ol>
+
+  <p>The kinetic parameters used for this analysis:</p>
+
+  <table class="params">
+    <thead>
+      <tr><th>Parameter</th><th>Value</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>\(b_c\)</td><td>5 × 10⁸ cells/mL</td><td>Constant bacteria concentration</td></tr>
+      <tr><td>\(w\)</td><td>0.1 mL/min</td><td>Washout rate</td></tr>
+      <tr><td>\(\beta\)</td><td>130 phages/cell</td><td>Burst size</td></tr>
+      <tr><td>\(\gamma\)</td><td>3 × 10⁻⁹ mL/min·phage</td><td>Adsorption rate constant</td></tr>
+      <tr><td>\(\tau\)</td><td>20 min</td><td>Latent time</td></tr>
+    </tbody>
+  </table>
+
+  <p>This was modeled in Python using delay differential equations (DDEs) over a time period of 200 minutes. The system of equations tracks uninfected bacteria (\(U\)), free phage (\(P\)), and infected bacteria (\(I\)):</p>
+
+  <div class="math-block">
+    $$\frac{dU}{dt} = -wU + b_c w - \gamma P U$$
+  </div>
+  <div class="math-block">
+    $$\frac{dP}{dt} = -wP - \gamma P U - \gamma P I + \beta \gamma U_{t-\tau} P_{t-\tau} e^{-w\tau}$$
+  </div>
+  <div class="math-block">
+    $$\frac{dI}{dt} = -wI + \gamma P U - \gamma U_{t-\tau} P_{t-\tau} e^{-w\tau}$$
+  </div>
+
+  <p>The subscript \(t - \tau\) denotes the delayed variables, accounting for the latent period before infected cells lyse and release phage.</p>
+
+  <h2>Results</h2>
+
+  <p>Figure 2 shows the free phage, susceptible bacteria, and infected bacteria concentrations over time.</p>
+
+  <p class="fig-caption"><strong>Figure 2:</strong> Supernatant phage, infected bacteria, and susceptible bacteria concentrations obtained using delay differential equations (DDEs).</p>
+
+  <p>As expected, the system is initially dynamic before reaching steady-state conditions. To confirm the model was simulated correctly, steady-state concentrations were calculated from the derived steady-state expressions (derivatives set to zero). The values were in agreement with those obtained at the end of the simulation (200 minutes).</p>
+
+  <p>The steady-state supernatant phage titer was determined to be <strong>5.9 × 10⁸ phages/mL</strong>.</p>
+
+  <p>If we assume a 10 L production vessel (approximately half the volume of currently-reported batch sizes, as continuous reactors often have smaller equipment footprints) with a washout rate of 0.1 fraction vessel volume per minute, the supernatant leaving the production vessel is 1 L/min. This results in a supernatant space-time yield of <strong>5.9 × 10¹¹ phages/L/min</strong> or <strong>3.5 × 10¹³ phages/L/hr</strong>. This is two orders of magnitude higher than the current batch process space-time yield.</p>
+
+  <p>A significant advantage of using a two-stage continuous process is harvest time control. In a batch process, the whole process terminates after 5 hours at which point the free phage concentration has reached steady state. With a continuous culture, the process termination is determined by the operator and can be optimized to minimize cost and maximize yield. This advantage is best captured when looking at total phage yield for both processes (Figure 3).</p>
+
+  <p class="fig-caption"><strong>Figure 3:</strong> Total phages harvested from a 5-hour batch reactor (25L) process vs. the production vessel of a two-stage continuous culture (10L) at various times immediately after reaching steady state.</p>
+
+  <h2>The Enrichment Paradox</h2>
+
+  <p>On a side note, it was interesting to see the oscillatory behavior of phage at earlier times in the simulation. This behavior is in agreement with what is known as "The enrichment paradox", which was first described in ecological models and later extended to microbial populations. It states that a continuous high supply of prey (here, bacteria) temporarily destabilizes the predator population (here, phage) before it reaches steady state. This behavior has also been reported in other lytic phage modeling. Because the supply of bacteria is high, the phage concentration varies but remains high throughout the process.</p>
+
+  <h2>Strain Engineering to Increase Yields</h2>
+
+  <p>The phage burst size, the number of active phage particles released during host cell lysis, is a key parameter dictating the production rate. Engineering either the T4 phage or the host <em>E. coli</em> strain to increase the burst size should increase the space-time yield. We modeled the production rate across a range of burst sizes and observed that, indeed, burst size increases the phage space-time yield (Figure 4).</p>
+
+  <p class="fig-caption"><strong>Figure 4:</strong> Impact of burst size improvement on phage yield. Green line marks continuous process yield without tuning burst size. Red line marks batch process yield.</p>
+
+  <p>To increase the burst size, one approach is to identify the rate-limiting step in T4 phage assembly by iteratively expressing T4 phage genes in the host <em>E. coli</em>. For example, the formation of the T4 phage capsid depends on the formation of a prohead precursor, which is initiated by the binding of gp20 to the <em>E. coli</em> inner membrane. The capsid itself is composed of four major proteins (gp23, gp24, Soc, Hoc) and requires host proteins YidC and DnaK to assemble. The availability of one of these proteins may be the rate-limiting step. Independently overexpressing these proteins may allow identification of the bottleneck.</p>
+
+  <p>A possible orthogonal approach is to remove nonessential genes from the T4 phage genome. Of the 289 genes encoded within the T4 phage genome, only 62 have been designated as essential for phage particle production (Figure 5). Many of the nonessential genes encode auxiliary metabolic genes and have been experimentally knocked out without detriment. Removing them may result in the capsid packaging multiple copies of its genome into a single particle, enabling larger burst sizes since each adsorption event would inject multiple genome copies into the host cell.</p>
+
+  <p class="fig-caption"><strong>Figure 5:</strong> The T4 phage genome. Essential genes (determined through knockout experiments) are colored red. Auxiliary (nonessential) genes are colored purple.</p>
+
+  <p>Accomplishing this would not be trivial, especially as the T4 phage genome is heavily modified with cytosine hydroxymethylation and glucosylation, conferring resistance to most endonucleases. However, many of the essential genes are clustered in operons (Figure 5), which may make PCR combined with fragment assembly methods a viable option. Additionally, the T4 phage particle has been produced in a cell-free setting, which suggests a reduced genome could be similarly "re-booted" with cell-free synthesis before large-scale production.</p>
+
+  <p>Our simulations across a range of burst sizes suggest that increasing burst size in reasonable increments does result in relatively fruitful gains in phage production (Figure 4).</p>
+
+</main>
+
+<script>
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: "$$", right: "$$", display: true},
+      {left: "\\(", right: "\\)", display: false}
+    ]
+  });
+</script>
+</body>
+</html>
