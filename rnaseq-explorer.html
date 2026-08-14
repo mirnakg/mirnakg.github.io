@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RNAseq Explorer — Mirna Kheir Gouda</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#f0ece3; --fg:#000000; --border:#c0bbb0; --accent:#2a52cc; }
+    html, body { min-height:100vh; background:var(--bg); font-family:'IBM Plex Mono',monospace; font-size:clamp(13px,2.2vw,22px); color:var(--fg); }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: clamp(0.8rem,2vw,1.4rem) clamp(1rem,4vw,2.5rem);
+      border-bottom: 1.5px dashed var(--border);
+      background: var(--bg);
+    }
+    .site-id { font-size:clamp(13px,2.2vw,22px); letter-spacing:0.10em; text-transform:uppercase; color:#1a1a1a; font-weight:700; text-decoration:none; transition:color 0.2s; }
+    nav { display:flex; gap:clamp(2rem,5vw,4rem); }
+    nav a { font-size:clamp(13px,2.2vw,22px); letter-spacing:0.10em; text-transform:uppercase; color:#1a1a1a; font-weight:700; text-decoration:none; transition:color 0.2s; }
+    nav a:hover, nav a.active { color:var(--accent); }
+
+    main { max-width:1360px; margin:0 auto; padding:3rem clamp(1.5rem,5vw,3rem) 6rem; }
+
+    .back-link { font-size:0.58rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent); transition:opacity 0.2s; display:inline-block; margin-bottom:2rem; }
+    .back-link:hover { opacity:0.7; }
+
+    .post-meta { font-size:0.58rem; letter-spacing:0.25em; text-transform:uppercase; color:#000; margin-bottom:1.2rem; display:block; }
+
+    h1 { font-size:clamp(1.6rem,5vw,2.8rem); font-weight:700; letter-spacing:-0.02em; line-height:1.1; margin-bottom:1rem; border-bottom:1.5px dashed var(--border); padding-bottom:1.5rem; }
+
+    .description { font-size:clamp(13px,2.2vw,22px); line-height:1.9; margin-bottom:2.5rem; }
+
+    .workflow { margin:2rem 0 3rem; }
+    .workflow h2 { font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase; margin-bottom:1.5rem; }
+
+    .steps { display:flex; flex-direction:column; gap:0; }
+    .step { display:flex; gap:1.2rem; align-items:flex-start; padding:1.2rem 0; border-bottom:1px solid var(--border); }
+    .step:last-child { border-bottom:none; }
+    .step-num { font-size:0.6rem; font-weight:700; letter-spacing:0.2em; color:var(--accent); min-width:2rem; padding-top:0.15em; }
+    .step-content h3 { font-size:clamp(13px,2.2vw,22px); font-weight:700; margin-bottom:0.3rem; }
+    .step-content p { font-size:0.85em; line-height:1.8; color:#333; }
+
+    .tags { display:flex; flex-wrap:wrap; gap:0.4rem; margin:2rem 0; }
+    .tag { font-size:0.55rem; letter-spacing:0.12em; text-transform:uppercase; border:1px solid var(--border); padding:0.25em 0.6em; color:#000; }
+
+    .cta-group { display:flex; flex-wrap:wrap; gap:1rem; margin-top:2.5rem; }
+    .cta {
+      display:inline-flex; align-items:center; gap:0.5rem;
+      font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase; font-weight:700;
+      text-decoration:none; padding:0.8em 1.8em;
+      transition: opacity 0.2s;
+    }
+    .cta:hover { opacity:0.8; }
+    .cta-primary { background:var(--accent); color:#fff; border:1.5px solid var(--accent); }
+    .cta-secondary { background:transparent; color:var(--accent); border:1.5px dashed var(--accent); }
+
+    @media (max-width: 600px) {
+      .site-header { flex-wrap: wrap; gap: 0.5rem; }
+      .site-id { width: 100%; }
+      nav { flex-wrap: wrap; gap: 0.8rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <a class="site-id" href="index.html">MKG</a>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="projects.html" class="active">Projects</a>
+    <a href="https://scholar.google.com/citations?user=FP2j7tcAAAAJ&hl=en" target="_blank">Publications</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <a class="back-link" href="projects.html">&larr; Projects</a>
+  <span class="post-meta">2025 &mdash; Bioinformatics</span>
+  <h1>RNAseq<br/>Explorer</h1>
+  <p class="description">An interactive tool for visualizing RNA-seq transcript profiles and differential gene expression from public GEO datasets or user-uploaded data.</p>
+
+  <div class="tags">
+    <span class="tag">RNA-seq</span>
+    <span class="tag">Transcriptomics</span>
+    <span class="tag">GEO Datasets</span>
+    <span class="tag">Differential Expression</span>
+    <span class="tag">Python</span>
+    <span class="tag">Streamlit</span>
+  </div>
+
+  <div class="workflow">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <h3>Load Data</h3>
+          <p>Enter a GEO Series accession (e.g. GSE53757) to automatically fetch expression data and sample metadata, or upload your own count matrix and metadata files.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <h3>Explore with PCA</h3>
+          <p>Run principal component analysis on the top variable genes. Color samples by any metadata variable to reveal batch effects, treatment groups, or tissue-specific clustering.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <h3>Differential Expression Analysis</h3>
+          <p>Select control and treatment groups, then run DEG analysis. Uses DESeq2 for count data or t-test with BH correction for normalized data. View interactive volcano plots with labeled top hits.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <h3>Gene Search</h3>
+          <p>Search for any gene by name and view its expression across all samples. Box plots grouped by condition reveal gene-level differences at a glance.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-group">
+    <a class="cta cta-primary" href="#" target="_blank" id="app-link">Launch Web App &rarr;</a>
+    <a class="cta cta-secondary" href="https://github.com/mirnakg/RNAseq_Explorer" target="_blank">View on GitHub &rarr;</a>
+  </div>
+</main>
+</body>
+</html>
