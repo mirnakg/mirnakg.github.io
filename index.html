@@ -43,9 +43,20 @@
       color: var(--dark);
     }
     .w { font-weight: 700; }
-    .cursor {
+    .ch {
       display: inline-block;
-      vertical-align: middle;
+      text-align: center;
+    }
+    .cursor-ch {
+      position: relative;
+    }
+    .cursor-ch::after {
+      content: '';
+      position: absolute;
+      left: 15%;
+      bottom: 15%;
+      width: 70%;
+      height: 70%;
       animation: blink 0.9s step-end infinite;
     }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -196,12 +207,10 @@
     for(const ch of text){
       html+=`<span class="${cls}" style="${chStyle()}">${ch===' '?'&nbsp;':ch}</span>`;
     }
-    // fill right side: always produce exactly (cols - colsUsed) plain AA chars
-    // use a fixed offset into static so chars are stable between renders
     const fill = Math.max(0, cols - colsUsed);
     for(let c=0;c<fill;c++){
       const idx = (colsUsed + c) % staticRows[r].length;
-      html += staticRows[r][idx] || randAA();
+      html += `<span class="ch" style="width:${charW}px">${staticRows[r][idx] || randAA()}</span>`;
     }
     html+=`</div>`;
     return html;
@@ -292,7 +301,7 @@
       if(placedRow(pw) === r){
         const sc = placedCol(pw);
         for(let j=0;j<pw.word.length;j++){
-          if(sc+j < cols) overrides[sc+j] = `<span class="w" style="color:${pw.color}">${pw.word[j]}</span>`;
+          if(sc+j < cols) overrides[sc+j] = `<span class="ch w" style="width:${charW}px;color:${pw.color}">${pw.word[j]}</span>`;
         }
       }
     }
@@ -305,12 +314,13 @@
       if(overrides[c] && !(isTypingRow && c >= wordCol && c < wordCol + visible.length)){
         html += overrides[c];
       } else if(isTypingRow && c >= wordCol && c < wordCol + visible.length){
-        html += `<span class="w" style="color:${color}">${visible[c-wordCol]}</span>`;
+        html += `<span class="ch w" style="width:${charW}px;color:${color}">${visible[c-wordCol]}</span>`;
       } else if(isTypingRow && c === wordCol + visible.length && ci < word.length && !done){
-        const cH=fsPx*0.70, cW=charW*0.58;
-        html += `<span class="cursor" style="width:${cW}px;height:${cH}px;background:${color};margin-bottom:${fsPx*0.05}px;"></span>`;
+        // cursor overlaid on an AA char — same width as every other cell
+        const bg = staticRows[r][c] || randAA();
+        html += `<span class="ch cursor-ch" style="width:${charW}px"><span style="position:relative;z-index:1">${bg}</span><span style="position:absolute;left:15%;bottom:15%;width:70%;height:70%;background:${color};z-index:2;animation:blink 0.9s step-end infinite"></span></span>`;
       } else {
-        html += staticRows[r][c] || randAA();
+        html += `<span class="ch" style="width:${charW}px">${staticRows[r][c] || randAA()}</span>`;
       }
     }
     html += `</div>`;
