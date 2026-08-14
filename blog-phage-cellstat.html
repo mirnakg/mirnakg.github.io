@@ -134,6 +134,13 @@
       text-align: center;
     }
 
+    .fig-img {
+      display: block;
+      max-width: 100%;
+      margin: 1.5rem auto 0;
+      border: 1px solid var(--border);
+    }
+
     a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); transition: opacity 0.2s; }
     a:hover { opacity: 0.7; }
     .site-id, nav a { border-bottom: none; }
@@ -187,7 +194,6 @@
 
   <span class="post-meta">Bioengineering · 2025</span>
   <h1>Modeling a Two-Stage Cellstat for Phage Production</h1>
-  <p class="post-subtitle">Using delay differential equations to model a continuous phage production process and compare it to batch, with a look at strain engineering strategies to push yields further.</p>
 
   <hr/>
 
@@ -204,6 +210,7 @@
 
   <p>The hypothesis here is straightforward: this should lead to higher space-time yields, because it eliminates the relatively lengthy batch bacteria growth stage.</p>
 
+  <img class="fig-img" src="images/phage-blog/fig1_schematic.png" alt="Schematic of two-stage cellstat for T4 phage production"/>
   <p class="fig-caption"><strong>Figure 1:</strong> Schematic illustrating continuous culture cultivation of T4 phages.</p>
 
   <h2>The Model</h2>
@@ -253,6 +260,9 @@
 
   <p>Figure 2 shows the free phage, susceptible bacteria, and infected bacteria concentrations over time.</p>
 
+  <img class="fig-img" src="images/phage-blog/fig2a_phage.png" alt="Phage concentration over time"/>
+  <img class="fig-img" src="images/phage-blog/fig2b_infected.png" alt="Infected bacteria concentration over time"/>
+  <img class="fig-img" src="images/phage-blog/fig2c_susceptible.png" alt="Susceptible bacteria concentration over time"/>
   <p class="fig-caption"><strong>Figure 2:</strong> Supernatant phage, infected bacteria, and susceptible bacteria concentrations obtained using delay differential equations (DDEs).</p>
 
   <p>As expected, the system is initially dynamic before reaching steady-state conditions. To confirm the model was simulated correctly, steady-state concentrations were calculated from the derived steady-state expressions (derivatives set to zero). The values were in agreement with those obtained at the end of the simulation (200 minutes).</p>
@@ -263,6 +273,7 @@
 
   <p>A significant advantage of using a two-stage continuous process is harvest time control. In a batch process, the whole process terminates after 5 hours at which point the free phage concentration has reached steady state. With a continuous culture, the process termination is determined by the operator and can be optimized to minimize cost and maximize yield. This advantage is best captured when looking at total phage yield for both processes (Figure 3).</p>
 
+  <img class="fig-img" src="images/phage-blog/fig3_batch_vs_continuous.jpeg" alt="Batch vs continuous phage yield comparison"/>
   <p class="fig-caption"><strong>Figure 3:</strong> Total phages harvested from a 5-hour batch reactor (25L) process vs. the production vessel of a two-stage continuous culture (10L) at various times immediately after reaching steady state.</p>
 
   <h2>The Enrichment Paradox</h2>
@@ -273,12 +284,14 @@
 
   <p>The phage burst size, the number of active phage particles released during host cell lysis, is a key parameter dictating the production rate. Engineering either the T4 phage or the host <em>E. coli</em> strain to increase the burst size should increase the space-time yield. We modeled the production rate across a range of burst sizes and observed that, indeed, burst size increases the phage space-time yield (Figure 4).</p>
 
+  <img class="fig-img" src="images/phage-blog/fig4_burst_size.png" alt="Impact of burst size on phage space time yield"/>
   <p class="fig-caption"><strong>Figure 4:</strong> Impact of burst size improvement on phage yield. Green line marks continuous process yield without tuning burst size. Red line marks batch process yield.</p>
 
   <p>To increase the burst size, one approach is to identify the rate-limiting step in T4 phage assembly by iteratively expressing T4 phage genes in the host <em>E. coli</em>. For example, the formation of the T4 phage capsid depends on the formation of a prohead precursor, which is initiated by the binding of gp20 to the <em>E. coli</em> inner membrane. The capsid itself is composed of four major proteins (gp23, gp24, Soc, Hoc) and requires host proteins YidC and DnaK to assemble. The availability of one of these proteins may be the rate-limiting step. Independently overexpressing these proteins may allow identification of the bottleneck.</p>
 
   <p>A possible orthogonal approach is to remove nonessential genes from the T4 phage genome. Of the 289 genes encoded within the T4 phage genome, only 62 have been designated as essential for phage particle production (Figure 5). Many of the nonessential genes encode auxiliary metabolic genes and have been experimentally knocked out without detriment. Removing them may result in the capsid packaging multiple copies of its genome into a single particle, enabling larger burst sizes since each adsorption event would inject multiple genome copies into the host cell.</p>
 
+  <img class="fig-img" src="images/phage-blog/fig5_t4_genome.png" alt="T4 phage genome map showing essential and auxiliary genes"/>
   <p class="fig-caption"><strong>Figure 5:</strong> The T4 phage genome. Essential genes (determined through knockout experiments) are colored red. Auxiliary (nonessential) genes are colored purple.</p>
 
   <p>Accomplishing this would not be trivial, especially as the T4 phage genome is heavily modified with cytosine hydroxymethylation and glucosylation, conferring resistance to most endonucleases. However, many of the essential genes are clustered in operons (Figure 5), which may make PCR combined with fragment assembly methods a viable option. Additionally, the T4 phage particle has been produced in a cell-free setting, which suggests a reduced genome could be similarly "re-booted" with cell-free synthesis before large-scale production.</p>
