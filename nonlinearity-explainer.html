@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Why Non-Linearity Matters — Mirna Kheir Gouda</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#ffffff; --fg:#000000; --border:#c0bbb0; --accent:#1a6e3a; }
+    html, body { min-height:100vh; background:var(--bg); font-family:Arial,Helvetica,sans-serif; font-size:clamp(13px,2.2vw,18px); color:var(--fg); }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 20;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: clamp(0.8rem,2vw,1.4rem) clamp(1rem,4vw,2.5rem);
+      border-bottom: 1.5px dashed var(--border);
+      background: var(--bg);
+    }
+    .site-id { font-size:clamp(13px,2.2vw,22px); letter-spacing:0.10em; text-transform:uppercase; color:#000000; font-weight:700; text-decoration:none; }
+    nav { display:flex; gap:clamp(2rem,5vw,4rem); }
+    nav a { font-size:clamp(13px,2.2vw,22px); letter-spacing:0.10em; text-transform:uppercase; color:#000000; font-weight:700; text-decoration:none; transition:color 0.2s; }
+    nav a:hover, nav a.active { color:var(--accent); }
+
+    main { max-width:900px; margin:0 auto; padding:2rem clamp(1rem,4vw,2rem) 4rem; }
+
+    .back-link { font-size:0.7em; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent); display:inline-block; margin-bottom:2rem; }
+    .back-link:hover { opacity:0.7; }
+
+    h1 { font-size:clamp(1.4rem,4vw,2.2rem); font-weight:700; margin-bottom:0.5rem; }
+    h2 { font-size:1em; font-weight:700; margin:2rem 0 0.8rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.1em; font-size:0.8em; }
+    p { font-size:0.88em; line-height:1.8; margin-bottom:1rem; }
+
+    .step { border:1.5px dashed var(--border); padding:1.5rem; margin:1.5rem 0; }
+    .step-title { font-weight:700; font-size:0.85em; margin-bottom:1rem; }
+    .step-desc { font-size:0.82em; line-height:1.7; margin-bottom:1rem; }
+
+    .input-row { display:flex; flex-wrap:wrap; gap:0.8rem; align-items:center; margin-bottom:0.8rem; }
+    .input-row label { font-size:0.78em; font-weight:700; min-width:3rem; }
+    .input-row input { width:5rem; padding:0.3em 0.5em; border:1px solid var(--border); font-family:inherit; font-size:0.85em; }
+    .input-row input.correct { border-color:var(--accent); background:#eafaef; }
+    .input-row input.wrong { border-color:#c0392b; background:#fdecea; }
+
+    .check-btn {
+      background:var(--accent); color:#fff; border:none; padding:0.5em 1.5em;
+      font-family:inherit; font-size:0.78em; font-weight:700; letter-spacing:0.1em;
+      text-transform:uppercase; cursor:pointer; margin-top:0.5rem;
+    }
+    .check-btn:hover { opacity:0.85; }
+    .check-btn:disabled { opacity:0.4; cursor:default; }
+
+    .feedback { font-size:0.78em; margin-top:0.5rem; font-weight:700; }
+    .feedback.ok { color:var(--accent); }
+    .feedback.err { color:#c0392b; }
+
+    .plot-container { display:flex; justify-content:center; margin:1rem 0; }
+    canvas { border:1px solid var(--border); }
+
+    .point-table { border-collapse:collapse; font-size:0.78em; margin:0.8rem 0; width:100%; }
+    .point-table th, .point-table td { border:1px solid var(--border); padding:0.3em 0.6em; text-align:center; }
+    .point-table th { background:#f5f5f5; font-weight:700; }
+
+    .math { font-family:'Courier New',monospace; font-size:0.85em; background:#f5f5f5; padding:0.15em 0.4em; }
+
+    .insight { border-left:3px solid var(--accent); padding:0.6rem 1rem; margin:1rem 0; font-size:0.82em; line-height:1.7; background:#f9fdf9; }
+
+    @media (max-width: 600px) {
+      .site-header { flex-wrap: wrap; gap: 0.5rem; }
+      .site-id { width: 100%; }
+      nav { flex-wrap: wrap; gap: 0.8rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <a class="site-id" href="index.html">MKG</a>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="portfolio.html" class="active">Portfolio</a>
+    <a href="https://scholar.google.com/citations?hl=en&user=CV4jtOoAAAAJ" target="_blank">Publications</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <a class="back-link" href="portfolio.html">&larr; Portfolio</a>
+  <h1>Why Non-Linearity Matters</h1>
+  <p>An interactive walkthrough of the XOR problem, showing why a neural network needs non-linear activation functions to classify data that isn't linearly separable.</p>
+
+  <h2>The Problem: XOR</h2>
+  <p>The XOR function outputs 1 when exactly one of its inputs is 1. These four points cannot be separated by a single straight line.</p>
+
+  <table class="point-table">
+    <tr><th>x₁</th><th>x₂</th><th>XOR (y)</th></tr>
+    <tr><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>0</td><td>1</td><td>1</td></tr>
+    <tr><td>1</td><td>0</td><td>1</td></tr>
+    <tr><td>1</td><td>1</td><td>0</td></tr>
+  </table>
+
+  <div class="plot-container"><canvas id="plot0" width="300" height="300"></canvas></div>
+  <p style="text-align:center;font-size:0.75em;color:#666;">Original XOR points in input space. No single line can separate the classes.</p>
+
+  <h2>The Network</h2>
+  <p>We use a simple 2-layer neural network: 2 inputs &rarr; 2 hidden units (with ReLU) &rarr; 1 output (with binarize). The parameters are:</p>
+  <p>
+    <span class="math">W = [[-1, 1], [-1, 1]]</span> &nbsp;
+    <span class="math">b⁽¹⁾ = [1.4, -0.6]</span> &nbsp;
+    <span class="math">V = [-1, -1]</span> &nbsp;
+    <span class="math">b⁽²⁾ = 1</span>
+  </p>
+
+  <!-- STEP 1: Linear transform -->
+  <div class="step" id="step1">
+    <div class="step-title">Step 1: Compute the linear transform z = Wx + b⁽¹⁾</div>
+    <div class="step-desc">For each XOR point, compute <span class="math">z₁ = -x₁ - x₂ + 1.4</span> and <span class="math">z₂ = x₁ + x₂ - 0.6</span></div>
+
+    <table class="point-table" id="step1-table">
+      <tr><th>Point</th><th>z₁</th><th>z₂</th></tr>
+      <tr><td>(0, 0)</td><td><input id="s1_z1_00" placeholder="z₁"></td><td><input id="s1_z2_00" placeholder="z₂"></td></tr>
+      <tr><td>(0, 1)</td><td><input id="s1_z1_01" placeholder="z₁"></td><td><input id="s1_z2_01" placeholder="z₂"></td></tr>
+      <tr><td>(1, 0)</td><td><input id="s1_z1_10" placeholder="z₁"></td><td><input id="s1_z2_10" placeholder="z₂"></td></tr>
+      <tr><td>(1, 1)</td><td><input id="s1_z1_11" placeholder="z₁"></td><td><input id="s1_z2_11" placeholder="z₂"></td></tr>
+    </table>
+    <button class="check-btn" onclick="checkStep1()">Check</button>
+    <div class="feedback" id="fb1"></div>
+    <div class="plot-container" id="plot1-wrap" style="display:none"><canvas id="plot1" width="300" height="300"></canvas></div>
+    <div class="insight" id="insight1" style="display:none">After the linear transform, the points have moved but they are still not linearly separable. A linear model alone cannot solve XOR.</div>
+  </div>
+
+  <!-- STEP 2: ReLU -->
+  <div class="step" id="step2" style="opacity:0.4;pointer-events:none;">
+    <div class="step-title">Step 2: Apply ReLU &mdash; h = max(0, z)</div>
+    <div class="step-desc">ReLU clips negative values to 0. Compute <span class="math">h₁ = max(0, z₁)</span> and <span class="math">h₂ = max(0, z₂)</span> for each point.</div>
+
+    <table class="point-table">
+      <tr><th>Point</th><th>h₁</th><th>h₂</th></tr>
+      <tr><td>(0, 0)</td><td><input id="s2_h1_00" placeholder="h₁"></td><td><input id="s2_h2_00" placeholder="h₂"></td></tr>
+      <tr><td>(0, 1)</td><td><input id="s2_h1_01" placeholder="h₁"></td><td><input id="s2_h2_01" placeholder="h₂"></td></tr>
+      <tr><td>(1, 0)</td><td><input id="s2_h1_10" placeholder="h₁"></td><td><input id="s2_h2_10" placeholder="h₂"></td></tr>
+      <tr><td>(1, 1)</td><td><input id="s2_h1_11" placeholder="h₁"></td><td><input id="s2_h2_11" placeholder="h₂"></td></tr>
+    </table>
+    <button class="check-btn" onclick="checkStep2()">Check</button>
+    <div class="feedback" id="fb2"></div>
+    <div class="plot-container" id="plot2-wrap" style="display:none"><canvas id="plot2" width="300" height="300"></canvas></div>
+    <div class="insight" id="insight2" style="display:none">After ReLU, the points are now linearly separable! The non-linear activation folded the space so that a single line can separate the two classes. This is why non-linearity matters.</div>
+  </div>
+
+  <!-- STEP 3: Output -->
+  <div class="step" id="step3" style="opacity:0.4;pointer-events:none;">
+    <div class="step-title">Step 3: Compute the output z' = Vh + b⁽²⁾ and binarize</div>
+    <div class="step-desc">Compute <span class="math">z' = -h₁ - h₂ + 1</span>, then <span class="math">y = 1 if z' &ge; 0, else 0</span></div>
+
+    <table class="point-table">
+      <tr><th>Point</th><th>z'</th><th>y</th></tr>
+      <tr><td>(0, 0)</td><td><input id="s3_zp_00" placeholder="z'"></td><td><input id="s3_y_00" placeholder="y"></td></tr>
+      <tr><td>(0, 1)</td><td><input id="s3_zp_01" placeholder="z'"></td><td><input id="s3_y_01" placeholder="y"></td></tr>
+      <tr><td>(1, 0)</td><td><input id="s3_zp_10" placeholder="z'"></td><td><input id="s3_y_10" placeholder="y"></td></tr>
+      <tr><td>(1, 1)</td><td><input id="s3_zp_11" placeholder="z'"></td><td><input id="s3_y_11" placeholder="y"></td></tr>
+    </table>
+    <button class="check-btn" onclick="checkStep3()">Check</button>
+    <div class="feedback" id="fb3"></div>
+    <div class="insight" id="insight3" style="display:none">The network correctly classifies all four XOR points. Without ReLU, this would be impossible: stacking linear layers without activation functions is equivalent to a single linear model, regardless of depth.</div>
+  </div>
+
+</main>
+
+<script>
+// XOR data
+const points = [[0,0],[0,1],[1,0],[1,1]];
+const labels = [0,1,1,0];
+const colors = {0:'#c0392b', 1:'#1a6e3a'};
+
+// Correct answers
+const z_vals = [
+  [1.4, -0.6],   // (0,0)
+  [0.4, 0.4],    // (0,1)
+  [0.4, 0.4],    // (1,0)
+  [-0.6, 1.4],   // (1,1)
+];
+const h_vals = [
+  [1.4, 0],      // (0,0)
+  [0.4, 0.4],    // (0,1)
+  [0.4, 0.4],    // (1,0)
+  [0, 1.4],      // (1,1)
+];
+const zp_vals = [-0.4, 0.2, 0.2, -0.4];
+const y_vals = [0, 1, 1, 0];
+
+function drawPlot(canvasId, pts, lbls, xLabel, yLabel, xRange, yRange, drawSepLine) {
+  const c = document.getElementById(canvasId);
+  const ctx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  const pad = 40;
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#fafafa';
+  ctx.fillRect(0, 0, W, H);
+
+  // Axes
+  ctx.strokeStyle = '#ccc';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad, H - pad);
+  ctx.lineTo(W - 10, H - pad);
+  ctx.moveTo(pad, H - pad);
+  ctx.lineTo(pad, 10);
+  ctx.stroke();
+
+  // Labels
+  ctx.fillStyle = '#000';
+  ctx.font = '11px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText(xLabel, W/2, H - 5);
+  ctx.save();
+  ctx.translate(12, H/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText(yLabel, 0, 0);
+  ctx.restore();
+
+  // Tick marks
+  const plotW = W - pad - 20;
+  const plotH = H - pad - 20;
+
+  function toX(v) { return pad + (v - xRange[0]) / (xRange[1] - xRange[0]) * plotW; }
+  function toY(v) { return (H - pad) - (v - yRange[0]) / (yRange[1] - yRange[0]) * plotH; }
+
+  // Grid lines
+  ctx.strokeStyle = '#eee';
+  ctx.lineWidth = 0.5;
+  for (let v = Math.ceil(xRange[0]); v <= xRange[1]; v += 0.5) {
+    if (v === xRange[0]) continue;
+    ctx.beginPath(); ctx.moveTo(toX(v), H-pad); ctx.lineTo(toX(v), 20); ctx.stroke();
+    ctx.fillStyle='#999'; ctx.font='9px Arial'; ctx.textAlign='center';
+    ctx.fillText(v.toFixed(1), toX(v), H-pad+12);
+  }
+  for (let v = Math.ceil(yRange[0]); v <= yRange[1]; v += 0.5) {
+    if (v === yRange[0]) continue;
+    ctx.beginPath(); ctx.moveTo(pad, toY(v)); ctx.lineTo(W-10, toY(v)); ctx.stroke();
+    ctx.fillStyle='#999'; ctx.font='9px Arial'; ctx.textAlign='right';
+    ctx.fillText(v.toFixed(1), pad-4, toY(v)+3);
+  }
+
+  // Separation line
+  if (drawSepLine) {
+    ctx.strokeStyle = '#1a6e3a';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6,4]);
+    // h1 + h2 = 1 => h2 = 1 - h1
+    const lx0 = toX(0), ly0 = toY(1);
+    const lx1 = toX(1), ly1 = toY(0);
+    ctx.beginPath(); ctx.moveTo(lx0, ly0); ctx.lineTo(lx1, ly1); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Points
+  for (let i = 0; i < pts.length; i++) {
+    const x = toX(pts[i][0]);
+    const y = toY(pts[i][1]);
+    ctx.beginPath();
+    ctx.arc(x, y, 8, 0, Math.PI * 2);
+    ctx.fillStyle = colors[lbls[i]];
+    ctx.fill();
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Label
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 10px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(lbls[i], x, y + 3.5);
+  }
+}
+
+// Draw initial plot
+drawPlot('plot0', points, labels, 'x₁', 'x₂', [-0.3, 1.5], [-0.3, 1.5], false);
+
+function checkVal(inputId, expected, tol) {
+  const el = document.getElementById(inputId);
+  const v = parseFloat(el.value);
+  if (isNaN(v)) return false;
+  const ok = Math.abs(v - expected) < (tol || 0.05);
+  el.className = ok ? 'correct' : 'wrong';
+  return ok;
+}
+
+function checkStep1() {
+  const ids = ['s1_z1_00','s1_z2_00','s1_z1_01','s1_z2_01','s1_z1_10','s1_z2_10','s1_z1_11','s1_z2_11'];
+  const expected = [1.4,-0.6, 0.4,0.4, 0.4,0.4, -0.6,1.4];
+  let allOk = true;
+  for (let i = 0; i < ids.length; i++) {
+    if (!checkVal(ids[i], expected[i])) allOk = false;
+  }
+  const fb = document.getElementById('fb1');
+  if (allOk) {
+    fb.textContent = 'Correct!';
+    fb.className = 'feedback ok';
+    document.getElementById('plot1-wrap').style.display = 'flex';
+    document.getElementById('insight1').style.display = 'block';
+    drawPlot('plot1', z_vals, labels, 'z₁', 'z₂', [-1, 2], [-1, 2], false);
+    // Unlock step 2
+    document.getElementById('step2').style.opacity = '1';
+    document.getElementById('step2').style.pointerEvents = 'auto';
+  } else {
+    fb.textContent = 'Some values are incorrect. Remember: z₁ = -x₁ - x₂ + 1.4 and z₂ = x₁ + x₂ - 0.6';
+    fb.className = 'feedback err';
+  }
+}
+
+function checkStep2() {
+  const ids = ['s2_h1_00','s2_h2_00','s2_h1_01','s2_h2_01','s2_h1_10','s2_h2_10','s2_h1_11','s2_h2_11'];
+  const expected = [1.4,0, 0.4,0.4, 0.4,0.4, 0,1.4];
+  let allOk = true;
+  for (let i = 0; i < ids.length; i++) {
+    if (!checkVal(ids[i], expected[i])) allOk = false;
+  }
+  const fb = document.getElementById('fb2');
+  if (allOk) {
+    fb.textContent = 'Correct!';
+    fb.className = 'feedback ok';
+    document.getElementById('plot2-wrap').style.display = 'flex';
+    document.getElementById('insight2').style.display = 'block';
+    drawPlot('plot2', h_vals, labels, 'h₁', 'h₂', [-0.3, 1.8], [-0.3, 1.8], true);
+    // Unlock step 3
+    document.getElementById('step3').style.opacity = '1';
+    document.getElementById('step3').style.pointerEvents = 'auto';
+  } else {
+    fb.textContent = 'Some values are incorrect. Remember: h = max(0, z). Negative values become 0.';
+    fb.className = 'feedback err';
+  }
+}
+
+function checkStep3() {
+  const ids = ['s3_zp_00','s3_y_00','s3_zp_01','s3_y_01','s3_zp_10','s3_y_10','s3_zp_11','s3_y_11'];
+  const expected = [-0.4,0, 0.2,1, 0.2,1, -0.4,0];
+  let allOk = true;
+  for (let i = 0; i < ids.length; i++) {
+    if (!checkVal(ids[i], expected[i])) allOk = false;
+  }
+  const fb = document.getElementById('fb3');
+  if (allOk) {
+    fb.textContent = 'Correct! The network solves XOR. Without ReLU, no set of parameters could achieve this.';
+    fb.className = 'feedback ok';
+    document.getElementById('insight3').style.display = 'block';
+  } else {
+    fb.textContent = "Some values are incorrect. z' = -h₁ - h₂ + 1, then y = 1 if z' ≥ 0, else y = 0.";
+    fb.className = 'feedback err';
+  }
+}
+</script>
+</body>
+</html>
