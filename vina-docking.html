@@ -95,6 +95,40 @@
     <span class="tag">Streamlit</span>
   </div>
 
+  <div class="workflow">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <h3>Provide a Ligand</h3>
+          <p>Enter a SMILES string and the tool generates a 3D conformer with RDKit, optimizes geometry with MMFF force field, and converts to PDBQT via Meeko. Or upload a pre-prepared .pdbqt file directly.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <h3>Prepare the Receptor</h3>
+          <p>Enter a PDB ID to fetch the structure from RCSB, or upload your own .pdb file. The tool automatically detects and removes co-crystallized ligands and water molecules, with options to retain metal ions.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <h3>Define the Binding Pocket</h3>
+          <p>Set the search space using a co-crystallized ligand as reference or specify coordinates manually. Configure the pocket radius and docking parameters (exhaustiveness, number of poses).</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <h3>Run Docking &amp; View Results</h3>
+          <p>AutoDock Vina scores and ranks binding poses. View a table of binding energies (total, intermolecular, intramolecular) and download docked poses as PDB files for visualization in PyMOL or ChimeraX.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="cta-group">
     <a class="cta cta-primary" href="https://vinaplugandplayapp-2core7xp92oqlkyprfkx6x.streamlit.app/" target="_blank" id="app-link">Launch Web App &rarr;</a>
     <a class="cta cta-secondary" href="https://github.com/mirnakg/Vina_Plug_And_Play" target="_blank">View on GitHub &rarr;</a>

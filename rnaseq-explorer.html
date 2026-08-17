@@ -90,6 +90,40 @@
     <span class="tag">Streamlit</span>
   </div>
 
+  <div class="workflow">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <h3>Load Data</h3>
+          <p>Enter a GEO Series accession (e.g. GSE53757) to automatically fetch expression data and sample metadata, or upload your own count matrix and metadata files.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <h3>Explore with PCA</h3>
+          <p>Run principal component analysis on the top variable genes. Color samples by any metadata variable to reveal batch effects, treatment groups, or tissue-specific clustering.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <h3>Differential Expression Analysis</h3>
+          <p>Select control and treatment groups, then run DEG analysis. Uses DESeq2 for count data or t-test with BH correction for normalized data. View interactive volcano plots with labeled top hits.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <h3>Gene Search</h3>
+          <p>Search for any gene by name and view its expression across all samples. Box plots grouped by condition reveal gene-level differences at a glance.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="cta-group">
     <a class="cta cta-primary" href="https://rnaseq-explorer-33594397490.us-central1.run.app" target="_blank" id="app-link">Launch Web App &rarr;</a>
     <a class="cta cta-secondary" href="https://github.com/mirnakg/RNAseq_Explorer" target="_blank">View on GitHub &rarr;</a>
