@@ -86,6 +86,70 @@
   <h1>Why Non-Linearity Matters</h1>
   <p>An interactive walkthrough of the XOR problem, showing why a neural network needs non-linear activation functions to classify data that isn't linearly separable.</p>
 
+  <h2>The Problem: XOR</h2>
+  <p>The XOR function outputs 1 when exactly one of its inputs is 1. These four points cannot be separated by a single straight line.</p>
+
+  <table class="point-table">
+    <tr><th>x₁</th><th>x₂</th><th>XOR (y)</th></tr>
+    <tr><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>0</td><td>1</td><td>1</td></tr>
+    <tr><td>1</td><td>0</td><td>1</td></tr>
+    <tr><td>1</td><td>1</td><td>0</td></tr>
+  </table>
+
+  <div class="plot-container"><canvas id="plot0" width="800" height="800"></canvas></div>
+  <p style="text-align:center;font-size:0.75em;color:#666;">Original XOR points in input space. No single line can separate the classes.</p>
+
+  <h2>The Network</h2>
+
+  <div style="text-align:center;margin:1.5rem 0;">
+    <svg width="420" height="180" viewBox="0 0 420 180" style="max-width:100%;">
+      <!-- Input layer -->
+      <circle cx="60" cy="60" r="22" fill="none" stroke="#000" stroke-width="2"/>
+      <text x="60" y="65" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">x₁</text>
+      <circle cx="60" cy="130" r="22" fill="none" stroke="#000" stroke-width="2"/>
+      <text x="60" y="135" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">x₂</text>
+      <text x="60" y="22" text-anchor="middle" font-family="Arial" font-size="11" fill="#888">Input</text>
+
+      <!-- Hidden layer -->
+      <circle cx="210" cy="60" r="22" fill="none" stroke="#000" stroke-width="2"/>
+      <text x="210" y="65" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">h₁</text>
+      <circle cx="210" cy="130" r="22" fill="none" stroke="#000" stroke-width="2"/>
+      <text x="210" y="135" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">h₂</text>
+      <text x="210" y="22" text-anchor="middle" font-family="Arial" font-size="11" fill="#888">Hidden (ReLU)</text>
+
+      <!-- Output layer -->
+      <circle cx="360" cy="95" r="22" fill="none" stroke="#000" stroke-width="2"/>
+      <text x="360" y="100" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold">y</text>
+      <text x="360" y="22" text-anchor="middle" font-family="Arial" font-size="11" fill="#888">Output</text>
+
+      <!-- Arrows: input to hidden -->
+      <line x1="82" y1="60" x2="186" y2="60" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="82" y1="65" x2="186" y2="125" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="82" y1="125" x2="186" y2="65" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="82" y1="130" x2="186" y2="130" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <!-- Arrows: hidden to output -->
+      <line x1="232" y1="65" x2="336" y2="90" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+      <line x1="232" y1="125" x2="336" y2="100" stroke="#000" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <!-- Arrow marker -->
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#000"/>
+        </marker>
+      </defs>
+    </svg>
+  </div>
+
+  <p>We use a simple 2-layer neural network: 2 inputs &rarr; 2 hidden units (with ReLU) &rarr; 1 output (with binarize). The parameters are:</p>
+  <p>
+    <span class="math">W = [[-1, 1], [-1, 1]]</span> &nbsp;
+    <span class="math">b⁽¹⁾ = [1.4, -0.6]</span> &nbsp;
+    <span class="math">V = [-1, -1]</span> &nbsp;
+    <span class="math">b⁽²⁾ = 1</span>
+  </p>
+
   <!-- STEP 1: Linear transform -->
   <div class="step" id="step1">
     <div class="step-title">Step 1: Compute the linear transform z = Wx + b⁽¹⁾</div>
@@ -258,6 +322,9 @@ function drawPlot(canvasId, pts, lbls, xLabel, yLabel, xRange, yRange, drawSepLi
     ctx.fillText(lbls[i], x, y + 4.5 * s);
   }
 }
+
+// Draw initial plot
+drawPlot('plot0', points, labels, 'x₁', 'x₂', [-0.3, 1.5], [-0.3, 1.5], false);
 
 function checkVal(inputId, expected, tol) {
   const el = document.getElementById(inputId);
