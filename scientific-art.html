@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scientific Art — Mirna Kheir Gouda</title>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#ffffff; --fg:#000000; --border:#c0bbb0; --accent:#1a6e3a; --placeholder:#f4f2ef; }
+    html, body { min-height:100vh; background:var(--bg); font-size: clamp(13px, 2.2vw, 22px); font-family:Arial,Helvetica,sans-serif; color:var(--fg); }
+    nav {
+      display: flex;
+      gap: clamp(2rem,5vw,4rem);
+      font-size: clamp(13px,2.2vw,22px);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+    nav a { color: #000000; font-weight: 700; text-decoration: none; transition: color 0.2s; }
+    nav a:hover { color: #1a6e3a; }
+    nav a.active { color: #1a6e3a; }
+    .site-id { font-size:clamp(13px,2.2vw,22px); letter-spacing:0.10em; text-transform:uppercase; color:#000000; font-weight:700; text-decoration:none; transition:color 0.2s; }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: clamp(0.8rem,2vw,1.4rem) clamp(1rem,4vw,2.5rem);
+      background: var(--bg);
+      border-bottom: 1.5px dashed var(--border);
+    }
+    @media (max-width: 600px) {
+      .site-header { flex-wrap: wrap; gap: 0.5rem; }
+      .site-id { width: 100%; }
+      nav { flex-wrap: wrap; gap: 0.8rem 1.5rem; }
+    }
+
+    main { max-width:1360px; margin:0 auto; padding:3rem clamp(1.5rem,5vw,3rem) 5rem; }
+    h1 { font-size:clamp(1.5rem,2.8vw,2rem); font-weight:700; letter-spacing:0.05em; margin-bottom:0.8rem; }
+    .page-intro { font-size:clamp(13px,2.2vw,22px); line-height:1.9; color:#000000; margin-bottom:3rem; max-width:640px; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+      gap: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .art-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .art-preview {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: var(--placeholder);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 0.9rem;
+    }
+
+    .art-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .placeholder-label {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--border);
+    }
+
+    .art-info {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .art-title {
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .art-desc {
+      font-size: 0.75rem;
+      line-height: 1.7;
+      color: #555;
+      flex-grow: 1;
+      margin-bottom: 0.9rem;
+    }
+
+    .download-btn {
+      display: inline-block;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid var(--fg);
+      padding: 0.45em 0.9em;
+      color: var(--fg);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      align-self: flex-start;
+    }
+
+    .download-btn:hover {
+      background: var(--fg);
+      color: var(--bg);
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <a class="site-id" href="index.html">MKG</a>
+  <nav>
+    <a href="about.html">About</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="scicomm.html" class="active">Science Communication</a>
+    <a href="https://scholar.google.com/citations?hl=en&user=CV4jtOoAAAAJ" target="_blank">Publications</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Scientific Art</h1>
+  <p class="page-intro">Vector illustrations created in Adobe Illustrator for scientific communication. All pieces are free to use and adapt — download the .ai source file to customize for your own work.</p>
+
+  <div class="gallery">
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-01.png" alt="Description of piece 01"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 01</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-01.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-02.png" alt="Description of piece 02"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 02</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-02.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-03.png" alt="Description of piece 03"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 03</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-03.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-04.png" alt="Description of piece 04"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 04</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-04.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-05.png" alt="Description of piece 05"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 05</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-05.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-06.png" alt="Description of piece 06"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 06</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-06.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-07.png" alt="Description of piece 07"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 07</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-07.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-08.png" alt="Description of piece 08"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 08</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-08.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-09.png" alt="Description of piece 09"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 09</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-09.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-10.png" alt="Description of piece 10"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 10</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-10.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-11.png" alt="Description of piece 11"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 11</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-11.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-12.png" alt="Description of piece 12"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 12</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-12.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-13.png" alt="Description of piece 13"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 13</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-13.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-14.png" alt="Description of piece 14"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 14</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-14.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-15.png" alt="Description of piece 15"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 15</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-15.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-16.png" alt="Description of piece 16"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 16</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-16.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-17.png" alt="Description of piece 17"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 17</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-17.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-18.png" alt="Description of piece 18"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 18</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-18.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-19.png" alt="Description of piece 19"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 19</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-19.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-20.png" alt="Description of piece 20"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 20</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-20.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-21.png" alt="Description of piece 21"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 21</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-21.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-22.png" alt="Description of piece 22"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 22</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-22.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-23.png" alt="Description of piece 23"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 23</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-23.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-24.png" alt="Description of piece 24"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 24</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-24.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+    <div class="art-card">
+      <div class="art-preview">
+        <!-- Replace with: <img src="images/scientific-art/piece-25.png" alt="Description of piece 25"> -->
+        <div class="placeholder-label">Preview</div>
+      </div>
+      <div class="art-info">
+        <h2 class="art-title">Illustration 25</h2>
+        <p class="art-desc">Brief description of the subject and scientific context.</p>
+        <a href="downloads/art/piece-25.ai" download class="download-btn">Download .ai</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+</body>
+</html>
