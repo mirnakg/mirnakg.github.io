@@ -117,6 +117,145 @@
       background: var(--fg);
       color: var(--bg);
     }
+
+    /* ── search bar ── */
+    .search-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 180px;
+      max-width: 420px;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 0.55em 0.9em;
+      background: var(--bg);
+      color: var(--fg);
+      outline: none;
+      font-family: inherit;
+    }
+    .search-input:focus { border-color: var(--fg); }
+    .search-input::placeholder { color: var(--border); }
+    .no-results {
+      display: none;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--border);
+      padding: 2rem 0;
+    }
+
+    /* ── contribute button ── */
+    .contribute-btn {
+      display: inline-block;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid var(--fg);
+      padding: 0.55em 1.1em;
+      color: var(--fg);
+      background: var(--bg);
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .contribute-btn:hover { background: var(--fg); color: var(--bg); }
+
+    /* ── modal ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      padding: clamp(1.5rem,4vw,2.5rem);
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal h2 {
+      font-size: clamp(1rem,2vw,1.3rem);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+    }
+    .modal-note {
+      font-size: 0.7rem;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem; right: 1.2rem;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--fg);
+      line-height: 1;
+    }
+    .field { margin-bottom: 1.2rem; }
+    .field label {
+      display: block;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .field input,
+    .field textarea {
+      width: 100%;
+      font-size: 0.75rem;
+      font-family: inherit;
+      border: 1px solid var(--border);
+      padding: 0.5em 0.7em;
+      background: var(--bg);
+      color: var(--fg);
+      outline: none;
+      resize: vertical;
+    }
+    .field input:focus,
+    .field textarea:focus { border-color: var(--fg); }
+    .field input[type="file"] { padding: 0.4em 0; border: none; font-size: 0.7rem; }
+    .field .hint { font-size: 0.6rem; color: #888; margin-top: 0.3rem; }
+    .submit-btn {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid var(--fg);
+      padding: 0.55em 1.3em;
+      color: var(--fg);
+      background: var(--bg);
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s, color 0.2s;
+    }
+    .submit-btn:hover { background: var(--fg); color: var(--bg); }
+    .form-status {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      margin-top: 1rem;
+      display: none;
+    }
+    .form-status.success { color: var(--accent); }
+    .form-status.error   { color: #c0392b; }
   </style>
 </head>
 <body>
@@ -134,7 +273,13 @@
   <h1>Scientific Art</h1>
   <p class="page-intro">Vector illustrations created in Adobe Illustrator for scientific communication. All pieces are free to use and adapt — download the .ai source file to customize for your own work.</p>
 
-  <div class="gallery">
+  <div class="search-row">
+    <input class="search-input" type="search" id="gallerySearch" placeholder="Search illustrations…" aria-label="Search illustrations">
+    <button class="contribute-btn" id="openContribute">Contribute an illustration</button>
+  </div>
+  <p class="no-results" id="noResults">No illustrations match your search.</p>
+
+  <div class="gallery" id="gallery">
 
     <div class="art-card">
       <div class="art-preview">
@@ -437,5 +582,106 @@
 
   </div>
 </main>
+
+<!-- Contribute modal -->
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" id="closeModal" aria-label="Close">&times;</button>
+    <h2 id="modalTitle">Contribute an Illustration</h2>
+    <p class="modal-note">Share a scientific illustration you've made — I'll review it and add it to the gallery if it's a good fit.</p>
+    <!-- Replace YOUR_FORM_ID with your Formspree form ID (formspree.io → New Form → copy the ID from the endpoint URL) -->
+    <form id="contributeForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" enctype="multipart/form-data" novalidate>
+      <div class="field">
+        <label for="contrib-name">Your name <span aria-hidden="true">*</span></label>
+        <input type="text" id="contrib-name" name="name" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="contrib-email">Your email <span aria-hidden="true">*</span></label>
+        <input type="email" id="contrib-email" name="email" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="contrib-title">Illustration title <span aria-hidden="true">*</span></label>
+        <input type="text" id="contrib-title" name="title" required>
+      </div>
+      <div class="field">
+        <label for="contrib-desc">Description</label>
+        <textarea id="contrib-desc" name="description" rows="3" placeholder="Brief description of the subject and scientific context"></textarea>
+      </div>
+      <div class="field">
+        <label for="contrib-file">Illustration file <span aria-hidden="true">*</span></label>
+        <input type="file" id="contrib-file" name="illustration" accept=".ai,.svg,.eps,.png,.jpg,.jpeg,.pdf" required>
+        <p class="hint">Accepted formats: .ai, .svg, .eps, .png, .jpg, .pdf — max 10 MB</p>
+      </div>
+      <button type="submit" class="submit-btn">Submit illustration</button>
+      <p class="form-status" id="formStatus"></p>
+    </form>
+  </div>
+</div>
+
+<script>
+  // ── search ────────────────────────────────────────────────────────────────
+  const searchInput = document.getElementById('gallerySearch');
+  const gallery     = document.getElementById('gallery');
+  const noResults   = document.getElementById('noResults');
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    const cards = gallery.querySelectorAll('.art-card');
+    let visible = 0;
+    cards.forEach(card => {
+      const title = card.querySelector('.art-title')?.textContent.toLowerCase() ?? '';
+      const desc  = card.querySelector('.art-desc')?.textContent.toLowerCase() ?? '';
+      const match = !q || title.includes(q) || desc.includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    noResults.style.display = visible === 0 ? 'block' : 'none';
+  });
+
+  // ── modal open / close ─────────────────────────────────────────────────────
+  const backdrop = document.getElementById('modalBackdrop');
+  document.getElementById('openContribute').addEventListener('click', () => {
+    backdrop.classList.add('open');
+    document.getElementById('contrib-name').focus();
+  });
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+  backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  function closeModal() { backdrop.classList.remove('open'); }
+
+  // ── form submission via Formspree ─────────────────────────────────────────
+  const form   = document.getElementById('contributeForm');
+  const status = document.getElementById('formStatus');
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('.submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    status.style.display = 'none';
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        status.textContent = 'Thank you! Your illustration has been submitted.';
+        status.className = 'form-status success';
+        form.reset();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Submission failed.');
+      }
+    } catch (err) {
+      status.textContent = err.message || 'Something went wrong. Please try again.';
+      status.className = 'form-status error';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit illustration';
+    }
+    status.style.display = 'block';
+  });
+</script>
 </body>
 </html>
