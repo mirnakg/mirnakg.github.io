@@ -117,8 +117,8 @@
 
 <script>
   const AA        = 'ACDEFGHIKLMNPQRSTVWY';
-  const WORDS     = ['ENGINEER','SCIENTIST','BUILDER','BIOLOGIST','INNOVATOR','RESEARCHER','PROBLEM-SOLVER','BIODESIGNER','CREATOR'];
-  const COLORS    = ['#1a6e3a','#c0392b','#8b4fa8','#1a7a4a','#c47a1e','#1a6e8a','#a0522d','#2a7a6a','#8b2252'];
+  const WORDS     = ['ENGINEER','SCIENTIST','BUILDER','BIOLOGIST','INNOVATOR','RESEARCHER','PROBLEM-SOLVER','BIODESIGNER'];
+  const COLORS    = ['#1a6e3a','#c0392b','#8b4fa8','#1a7a4a','#c47a1e','#1a6e8a','#a0522d','#2a7a6a'];
   const MAX_LOOPS = 3; // stop after cycling through all words 3 times
 
   // exact text to render — note casing and trailing space
@@ -215,40 +215,6 @@
     return html;
   }
 
-  function isOccupied(r, col, len){
-    // check name/sub rows
-    if(r===NAME_ROW||r===SUB_ROW) return true;
-    // check against already placed words
-    for(const pw of placedWords){
-      if(pw.row===r){
-        const start=pw.col, end=pw.col+pw.word.length-1;
-        const newEnd=col+len-1;
-        if(col<=end+1 && newEnd>=start-1) return true; // overlap or adjacent
-      }
-    }
-    return false;
-  }
-
-  function pickWordPos(word){
-    const skip=new Set([0,1,NAME_ROW-1,NAME_ROW,SUB_ROW,SUB_ROW+1,rows-1,rows-2]);
-    const valid=[];
-    for(let r=4;r<rows-2;r++) if(!skip.has(r)) valid.push(r);
-    if(!valid.length){wordRow=6;wordCol=1;return;}
-
-    // try up to 50 random positions to find a free spot
-    for(let attempt=0;attempt<50;attempt++){
-      const r=valid[Math.floor(Math.random()*valid.length)];
-      const maxCol=Math.max(0,cols-word.length-2);
-      const c=Math.floor(Math.random()*(maxCol+1));
-      if(!isOccupied(r,c,word.length)){
-        wordRow=r; wordCol=c; return;
-      }
-    }
-    // fallback: just pick anything
-    const r=valid[Math.floor(Math.random()*valid.length)];
-    wordRow=r; wordCol=Math.floor(Math.random()*Math.max(1,cols-word.length));
-  }
-
   // track all placed words so they persist
   // store fractional col (0-1) so position survives resize
   let placedWords = []; // [{rowFrac, colFrac, word, color}]
@@ -272,19 +238,25 @@
     const skip=new Set([0,1,NAME_ROW-1,NAME_ROW,SUB_ROW,SUB_ROW+1,rows-1,rows-2]);
     const valid=[];
     for(let r=4;r<rows-2;r++) if(!skip.has(r)) valid.push(r);
-    if(!valid.length){wordRow=6;wordCol=1;return;}
+    if(!valid.length){ wordRow=-1; wordCol=-1; return; }
 
-    for(let attempt=0;attempt<100;attempt++){
+    // 1) Try 150 random positions first (fast path)
+    for(let attempt=0;attempt<150;attempt++){
       const r=valid[Math.floor(Math.random()*valid.length)];
       const maxCol=Math.max(0,cols-word.length-2);
       const c=Math.floor(Math.random()*(maxCol+1));
-      if(!isOccupied(r,c,word.length)){
-        wordRow=r; wordCol=c; return;
+      if(!isOccupied(r,c,word.length)){ wordRow=r; wordCol=c; return; }
+    }
+    // 2) Systematic scan over all rows × cols — guarantees no overlap
+    const shuffled = valid.slice().sort(()=>Math.random()-0.5);
+    for(const r of shuffled){
+      const maxCol=Math.max(0,cols-word.length-2);
+      for(let c=0;c<=maxCol;c++){
+        if(!isOccupied(r,c,word.length)){ wordRow=r; wordCol=c; return; }
       }
     }
-    // fallback
-    const r=valid[Math.floor(Math.random()*valid.length)];
-    wordRow=r; wordCol=Math.floor(Math.random()*Math.max(1,cols-word.length));
+    // Truly no space — mark as unplaceable
+    wordRow=-1; wordCol=-1;
   }
 
   function buildRow(r){
@@ -334,6 +306,18 @@
 
   function tick(){
     if(done) return;
+    // If no space was found for this word, skip it
+    if(wordRow === -1){
+      wi++;
+      if(wi >= WORDS.length){
+        wi=0; loopCount++;
+        if(loopCount >= MAX_LOOPS){ done=true; render(); return; }
+      }
+      ci=0;
+      pickWordPos(WORDS[wi]);
+      setTimeout(tick, PAUSE_TIME);
+      return;
+    }
     const word=WORDS[wi];
     ci++;
     render();
