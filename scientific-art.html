@@ -589,7 +589,7 @@
     <h2 id="modalTitle">Contribute an Illustration</h2>
     <p class="modal-note">Share a scientific illustration you've made. I'll review it and add it to the gallery if it's a good fit. You will be designated as the artist. Thank you!</p>
     <!-- Replace YOUR_FORM_ID with your Formspree form ID (formspree.io → New Form → copy the ID from the endpoint URL) -->
-    <form id="contributeForm" action="https://formspree.io/f/xkopvebb" method="POST" enctype="multipart/form-data" novalidate>
+    <form id="contributeForm" action="https://formspree.io/f/xkopvebb" method="POST" novalidate>
       <div class="field">
         <label for="contrib-name">Your name <span aria-hidden="true">*</span></label>
         <input type="text" id="contrib-name" name="name" required autocomplete="name">
@@ -607,9 +607,9 @@
         <textarea id="contrib-desc" name="description" rows="3" placeholder="Brief description of the subject and scientific context"></textarea>
       </div>
       <div class="field">
-        <label for="contrib-file">Illustration file <span aria-hidden="true">*</span></label>
-        <input type="file" id="contrib-file" name="illustration" accept=".ai,.svg,.eps,.png,.jpg,.jpeg,.pdf" required>
-        <p class="hint">Accepted formats: .ai, .svg, .eps, .png, .jpg, .pdf — max 10 MB</p>
+        <label for="contrib-file">File link <span aria-hidden="true">*</span></label>
+        <input type="url" id="contrib-file" name="file_link" placeholder="Google Drive, Dropbox, WeTransfer…" required>
+        <p class="hint">Upload your file to Google Drive or Dropbox and paste the shareable link here.</p>
       </div>
       <button type="submit" class="submit-btn">Submit illustration</button>
       <p class="form-status" id="formStatus"></p>
